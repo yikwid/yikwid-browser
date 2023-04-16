@@ -1,0 +1,33 @@
+diff --git a/browser/themes/shared/preferences/category-yikwid.png b/browser/themes/shared/preferences/category-yikwid.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f1f91fd8043b52ce3e1f0e65e97f170d9b8fa2e
+GIT binary patch
+literal 625
+zcmV-%0*?KOP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF00009a7bBm001r{
+z001r{0eGc9b^rhX2XskIMF-{!2LuifV)M?S0006INkl<Zc-rlnPb)-W6vpphO0pr8
+zgby%`l!XOD!bgyel!Y&#tdyb%8y|tKFJPhAApgpYKZ(sqDP~9G&otApc}`8I-tN@Q
+zJNM4ab2h)a=XUP&oadhVzHbw79Ouue;;3<|JSYGKpa2wr0#E=7KmjNK1)u=c8Fd9$
+zXawV6i^`vX5ipx)-6rrF>{j_7a0I-h13Yp-5<CQ_RK6c<1>f_my99Qr>vDRrSy<=k
+z07Sqk)``#zxSLZsw`0@bo=Y8Z%qdu}@>k$6_)7<PJOd;S)O2o8PMCCYfc%neL+8K2
+zc|+&5<LH1=J0JmGfTJou1_r^j%FlvBhN-`%)&-8?KF$EIz5)^p;FfwfGvELi1KYqT
+z*skiGDMzKa7x3u}kk|*;)jKaw8V7H{6+`EfYU-!#2tWrEz2X!22==J_1b7b48K(Iv
+zc+2yEGW!ZhY=DdE`WN^NhE)DotsByGK$$uqqRt6wUGDz`2f>HZ2*9s^waT(5cmq3J
+z*6_=v?K~Y|eFjMEsNJ59BXwSop#v&p21vXZu4mPHA>)kzbb$3IgbmlF<9FT)KnGZ>
+z95k%;C0@Y<9Z;bTXa+kC`Fn4tKOJD*0U<RDbi~wNfDWiM2ZRk0OUI-B5P%M_R=LmL
+zD?mEHngitQuh)?O0ONFkFT(zbkk5mEm8Ad_fC5ke3P1rUK-I=SqIX#6kbX?y00000
+LNkvXXu0mjfGsq0i
+
+literal 0
+HcmV?d00001
+
+--- a/browser/themes/shared/preferences/preferences.css
++++ b/browser/themes/shared/preferences/preferences.css
+@@ -212,7 +212,7 @@ checkbox {
+ }
+ 
+ #category-librewolf > .category-icon {
+-  list-style-image: url("chrome://browser/skin/preferences/category-librewolf.svg");
++  list-style-image: url("chrome://browser/skin/preferences/category-yikwid.png");
+ }
+ 
+ #category-sync > .category-icon {
