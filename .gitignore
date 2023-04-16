@@ -1,3 +1,5 @@
 /firefox-*
 /librewolf-*
+/yikwid-*
 /mozilla-unified
+*.sw*
