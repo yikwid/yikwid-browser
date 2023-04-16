@@ -46,7 +46,7 @@ def exec(cmd, exit_on_fail = True, do_print = True):
         return None
 
 def patch(patchfile):
-    cmd = "patch -p1 -i {}".format(patchfile)
+    cmd = "git apply {}".format(patchfile)
     print("\n*** -> {}".format(cmd))
     sys.stdout.flush()
     if not options.no_execute:
@@ -58,7 +58,7 @@ def patch(patchfile):
 
 def enter_srcdir(_dir = None):
     if _dir == None:
-        dir = "librewolf-{}-{}".format(version, release)
+        dir = "yikwid-{}-{}".format(version, release)
     else:
         dir = _dir
     print("cd {}".format(dir))
@@ -97,27 +97,31 @@ def librewolf_patches():
     # copy the right search-config.json file
     exec('cp -v ../assets/search-config.json services/settings/dumps/main/search-config.json')
 
+    # source git needed so `git apply` works local to the source
+    exec('git init .')
+
     # read lines of .txt file into 'patches'
     with open('../assets/patches.txt'.format(version), "r") as f:
         for line in f.readlines():
             patch('../'+line)
 
-    # apply xmas.patch seperately because not all builders use this repo the same way, and
-    # we don't want to disturbe those workflows.
-    patch('../patches/xmas.patch')
-
-
     #
     # Apply most recent `settings` repository files.
     #
-
+    
     exec('mkdir -p lw')
-    enter_srcdir('lw')
-    exec('wget -q https://codeberg.org/librewolf/settings/raw/branch/master/librewolf.cfg')
-    exec('wget -q https://codeberg.org/librewolf/settings/raw/branch/master/distribution/policies.json')
-    exec('wget -q https://codeberg.org/librewolf/settings/raw/branch/master/defaults/pref/local-settings.js')
-    leave_srcdir();
 
+    # apply xmas.patch seperately because not all builders use this repo the same way, and
+    # we don't want to disturbe those workflows.
+    patch('../patches/xmas.patch')
+    
+    # remove .git dir after patches, as it interferes with rest of bootstrap/build
+    exec('rm -r .git')
+
+    # getting the librewolf settings repository
+    exec("cp -v ../submodules/settings/defaults/pref/local-settings.js lw/")
+    exec("cp -v ../submodules/settings/distribution/policies.json lw/")
+    exec("cp -v ../submodules/settings/librewolf.cfg lw/")
 
 
     # provide a script that fetches and bootstraps Nightly and some mozconfigs
@@ -141,11 +145,11 @@ def librewolf_patches():
 #
 
 if len(args) != 2:
-    sys.stderr.write('error: please specify version and release of librewolf source')
+    sys.stderr.write('error: please specify version and release of yikwid browser source')
     sys.exit(1)
 version = args[0]
 release = args[1]
-if not os.path.exists('librewolf-{}-{}'.format(version, release) + '/configure.py'):
+if not os.path.exists('yikwid-{}-{}'.format(version, release) + '/configure.py'):
     sys.stderr.write('error: folder doesn\'t look like a Firefox folder.')
     sys.exit(1)
 
