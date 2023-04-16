@@ -30,3 +30,4 @@ patches/urlbarprovider-interventions.patch
 patches/windows-theming-bug.patch
 patches/devtools-bypass.patch
 patches/yikwid-mozilla_dirs.patch
+patches/yikwid-logo.patch
