@@ -15,14 +15,14 @@ ext:=.tar.gz
 ff_source_dir:=firefox-$(version)
 ff_source_tarball:=firefox-$(version).source.tar.xz
 
-lw_source_dir:=librewolf-$(version)-$(release)
-lw_source_tarball:=librewolf-$(version)-$(release).source$(ext)
+lw_source_dir:=yikwid-$(version)-$(release)
+lw_source_tarball:=yikwid-$(version)-$(release).source$(ext)
 
 help :
 
 	@echo "use: $(MAKE) [all] [check] [clean] [veryclean] [bootstrap] [build] [package] [run]"
 	@echo ""
-	@echo "  all         - Make LibreWolf source archive ${version}-${release}."
+	@echo "  all         - Make Yikwid Browser source archive ${version}-${release}."
 	@echo "  check       - Check if there is a new version of Firefox."
 	@echo "  update      - Update the git submodules."
 	@echo ""
@@ -34,10 +34,10 @@ help :
 	@echo ""
 	@echo "  fetch       - fetch Firefox source archive."
 	@echo "  dir         - extract Firefox and apply the patches, creating a"
-	@echo "                ready to build librewolf folder."
-	@echo "  build       - Build LibreWolf (requires bootstrapped build environment)."
-	@echo "  package     - Package LibreWolf (requires build)."
-	@echo "  run         - Run LibreWolf (requires build)."
+	@echo "                ready to build yikwid folder."
+	@echo "  build       - Build Yikwid Browser (requires bootstrapped build environment)."
+	@echo "  package     - Package Yikwid Browser (requires build)."
+	@echo "  run         - Run Yikwid Browser (requires build)."
 	@echo ""
 	@echo "  check-patchfail - check patches for errors."
 	@echo "  check-fuzz      - check patches for fuzz."
@@ -51,7 +51,7 @@ check :
 	mv -vf version.tmp version
 	@echo ""
 	@echo "Firefox version   : " $$(cat version)
-	@echo "LibreWolf release : " $$(cat release)
+	@echo "Yikwid Browser release : " $$(cat release)
 	@echo ""
 
 
@@ -122,7 +122,7 @@ build : $(lw_source_dir)
 
 package :
 	(cd $(lw_source_dir) && cat browser/locales/shipped-locales | xargs ./mach package-multi-locale --locales)
-	cp -v $(lw_source_dir)/obj-*/dist/librewolf-$(version)-$(release).en-US.*.tar.bz2 .
+	cp -v $(lw_source_dir)/obj-*/dist/yikwid-$(version)-$(release).en-US.*.tar.bz2 .
 
 run :
 	(cd $(lw_source_dir) && ./mach run)
@@ -148,7 +148,7 @@ fixfuzz :
 #
 
 
-build_image=librewolf-build-image
+build_image=yikwid-build-image
 
 docker-build-image :
 	docker build --no-cache -t $(build_image) - < assets/Dockerfile

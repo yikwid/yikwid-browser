@@ -17,7 +17,7 @@ fetch_and_extract() {
 }
 
 build() {
-    cd librewolf-$(cat version)
+    cd yikwid-$(cat version)
       ./mach build
       ./mach package
     cd ..
