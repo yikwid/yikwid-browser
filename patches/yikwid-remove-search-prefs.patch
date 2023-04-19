@@ -1,0 +1,16 @@
+diff --git a/browser/components/preferences/main.js b/browser/components/preferences/main.js
+index 0c9eb28..283c8d0 100644
+--- a/browser/components/preferences/main.js
++++ b/browser/components/preferences/main.js
+@@ -714,6 +714,11 @@ var gMainPane = {
+       }
+     }
+ 
++    // Yikwid settings hide search preferences
++    document
++      .getElementById("category-search")
++      .setAttribute("style", "display: none !important");
++
+     // Initilize Application section.
+ 
+     // Observe preferences that influence what we display so we can rebuild

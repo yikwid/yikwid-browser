@@ -1,0 +1,52 @@
+--- a/toolkit/components/search/SearchService.sys.mjs
++++ b/toolkit/components/search/SearchService.sys.mjs
+@@ -1177,6 +1177,9 @@ export class SearchService {
+    *   The appropriate search engine, or null if one could not be determined.
+    */
+   _getEngineDefault(privateMode) {
++    // Yikwid no search engines
++    return null;
++
+     let currentEngine = privateMode
+       ? this.#currentPrivateEngine
+       : this.#currentEngine;
+@@ -1230,6 +1233,9 @@ export class SearchService {
+    * Throws in case of initialization error.
+    */
+   #ensureInitialized() {
++    // Yikwid no search service
++    return;
++
+     if (this._initialized) {
+       if (!Components.isSuccessCode(this.#initRV)) {
+         lazy.logConsole.debug("#ensureInitialized: failure");
+@@ -1501,6 +1507,9 @@ export class SearchService {
+    *   An object representing the search engine settings.
+    */
+   async #loadEngines(settings) {
++    // Yikwid no engine loading
++    return;
++
+     // Get user's current settings and search engine before we load engines from
+     // config. These values will be compared after engines are loaded.
+     let prevMetaData = { ...settings?.metaData };
+@@ -1728,6 +1737,9 @@ export class SearchService {
+   // This is prefixed with _ rather than # because it is called in
+   // test_remove_engine_notification_box.js
+   async _reloadEngines(settings, changeReason) {
++    // Yikwid no loading engines
++    return;
++
+     // Capture the current engine state, in case we need to notify below.
+     let prevCurrentEngine = this.#currentEngine;
+     let prevPrivateEngine = this.#currentPrivateEngine;
+@@ -2819,6 +2831,9 @@ export class SearchService {
+    *   The appropriate search engine, or null if one could not be determined.
+    */
+   #findAndSetNewDefaultEngine({ privateMode }) {
++    // Yikwid no engines
++    return null;
++
+     // First to the app default engine...
+     let newDefault = privateMode
+       ? this.appPrivateDefaultEngine

@@ -46,7 +46,10 @@ def exec(cmd, exit_on_fail = True, do_print = True):
         return None
 
 def patch(patchfile):
-    cmd = "git apply {}".format(patchfile)
+    yw_patch = os.path.basename(patchfile).startswith("yikwid")
+    cmd = "patch -p1 -i {}".format(patchfile)
+    if yw_patch:
+        cmd = "git apply {}".format(patchfile)
     print("\n*** -> {}".format(cmd))
     sys.stdout.flush()
     if not options.no_execute:
@@ -105,16 +108,16 @@ def librewolf_patches():
         for line in f.readlines():
             patch('../'+line)
 
+    # apply xmas.patch seperately because not all builders use this repo the same way, and
+    # we don't want to disturbe those workflows.
+    patch('../patches/xmas.patch')
+
     #
     # Apply most recent `settings` repository files.
     #
     
-    exec('mkdir -p lw')
+    #exec('mkdir -p lw')
 
-    # apply xmas.patch seperately because not all builders use this repo the same way, and
-    # we don't want to disturbe those workflows.
-    patch('../patches/xmas.patch')
-    
     # remove .git dir after patches, as it interferes with rest of bootstrap/build
     exec('rm -r .git')
 
