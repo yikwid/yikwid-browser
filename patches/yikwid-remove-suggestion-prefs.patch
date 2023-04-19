@@ -1,0 +1,50 @@
+--- a/browser/components/preferences/privacy.inc.xhtml
++++ b/browser/components/preferences/privacy.inc.xhtml
+@@ -665,10 +665,12 @@
+             preference="browser.urlbar.suggest.bookmark"/>
+   <checkbox id="openpageSuggestion" data-l10n-id="addressbar-locbar-openpage-option"
+             preference="browser.urlbar.suggest.openpage"/>
+-  <checkbox id="topSitesSuggestion"
++  <!-- Yikwid shortcut suggestions -->
++  <checkbox id="topSitesSuggestion" hidden="true"
+             data-l10n-id="addressbar-locbar-shortcuts-option"
+             preference="browser.urlbar.suggest.topsites"/>
+-  <checkbox id="enginesSuggestion" data-l10n-id="addressbar-locbar-engines-option"
++  <!-- Yikwid hide engine suggestions -->
++  <checkbox id="enginesSuggestion" data-l10n-id="addressbar-locbar-engines-option" hidden="true"
+             preference="browser.urlbar.suggest.engines"/>
+   <hbox id="firefoxSuggestBestMatchContainer" align="center" hidden="true">
+     <checkbox id="firefoxSuggestBestMatch"
+@@ -755,8 +757,10 @@
+               aria-describedby="dismissedSuggestionsDescription"/>
+     </hbox>
+   </vbox>
++  <!-- Yikwid remove link to search prefs
+   <label id="openSearchEnginePreferences" is="text-link"
+          data-l10n-id="addressbar-suggestions-settings"/>
++  -->
+ </groupbox>
+ 
+ <hbox id="permissionsCategory"
+--- a/browser/components/preferences/privacy.js
++++ b/browser/components/preferences/privacy.js
+@@ -630,12 +630,13 @@ var gPrivacyPane = {
+       // user has set their history mode to never remember history.
+       gPrivacyPane.clearPrivateDataNow(historyMode.value == "dontremember");
+     });
+-    setEventListener("openSearchEnginePreferences", "click", function(event) {
+-      if (event.button == 0) {
+-        gotoPref("search");
+-      }
+-      return false;
+-    });
++    // Yikwid remove click event to open search prefs
++    //setEventListener("openSearchEnginePreferences", "click", function(event) {
++    //  if (event.button == 0) {
++    //    gotoPref("search");
++    //  }
++    //  return false;
++    //});
+     setEventListener(
+       "privateBrowsingAutoStart",
+       "command",
