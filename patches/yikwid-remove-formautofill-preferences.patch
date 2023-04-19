@@ -1,0 +1,12 @@
+--- a/toolkit/components/formautofill/FormAutofillParent.jsm
++++ b/toolkit/components/formautofill/FormAutofillParent.jsm
+@@ -238,6 +238,9 @@ let FormAutofillStatus = {
+     lazy.log.debug("observe:", topic, "with data:", data);
+     switch (topic) {
+       case "privacy-pane-loaded": {
++        // Yikwid no autofill settings
++        break;
++
+         let formAutofillPreferences = new lazy.FormAutofillPreferences();
+         let document = subject.document;
+         let prefFragment = formAutofillPreferences.init(document);

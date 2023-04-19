@@ -1,0 +1,12 @@
+--- a/browser/components/preferences/privacy.js
++++ b/browser/components/preferences/privacy.js
+@@ -764,6 +764,9 @@ var gPrivacyPane = {
+       document.querySelector("menuitem[value='dontremember']").hidden = true;
+     }
+ 
++    // Yikwid no options to autofill or remember forms history
++    document.getElementById("rememberForms")?.remove();
++
+     /* init HTTPS-Only mode */
+     this.initHttpsOnly();
+ 

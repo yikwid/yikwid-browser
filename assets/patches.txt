@@ -20,8 +20,6 @@ patches/ui-patches/handlers.patch
 patches/ui-patches/hide-default-browser.patch
 patches/ui-patches/lw-logo-devtools.patch
 patches/ui-patches/pref-naming.patch
-patches/ui-patches/privacy-preferences.patch
-patches/ui-patches/yikwid-reverse-privacy-preferences.patch
 patches/ui-patches/remove-branding-urlbar.patch
 patches/ui-patches/remove-cfrprefs.patch
 patches/ui-patches/remove-organization-policy-banner.patch
@@ -31,3 +29,17 @@ patches/urlbarprovider-interventions.patch
 patches/windows-theming-bug.patch
 patches/yikwid-mozilla_dirs.patch
 patches/yikwid-logo.patch
+patches/_yikwid-allow-isdcac-private-mode.patch
+patches/yikwid-unreserve-hotkeys.patch
+patches/yikwid-remove-search-prefs.patch
+patches/yikwid-remove-newtab-prefs.patch
+patches/yikwid-hide-password-mgr.patch
+patches/yikwid-remove-contextmenu-items.patch
+patches/yikwid-disable-custom-urlbar-placeholder-text.patch
+patches/yikwid-remove-search-engine-list.patch
+patches/yikwid-pref-pane.patch
+patches/yikwid-correct-urlbar-placeholder.patch
+patches/yikwid-remove-remember-search-history.patch
+patches/yikwid-remove-formautofill-preferences.patch
+patches/yikwid-no-search-engine-loading.patch
+patches/yikwid-remove-suggestion-prefs.patch
