@@ -14,3 +14,17 @@ index 0c9eb28..283c8d0 100644
      // Initilize Application section.
  
      // Observe preferences that influence what we display so we can rebuild
+diff --git a/browser/components/preferences/dialogs/sanitize.xhtml b/browser/components/preferences/dialogs/sanitize.xhtml
+index c4c031a..1b27d96 100644
+--- a/browser/components/preferences/dialogs/sanitize.xhtml
++++ b/browser/components/preferences/dialogs/sanitize.xhtml
+@@ -45,7 +45,7 @@
+                   preference="privacy.clearOnShutdown.history"/>
+         <checkbox data-l10n-id="item-active-logins"
+                   preference="privacy.clearOnShutdown.sessions"/>
+-        <checkbox data-l10n-id="item-form-search-history"
++        <checkbox data-l10n-id="item-form-search-history" hidden="true"
+                   preference="privacy.clearOnShutdown.formdata"/>
+       </vbox>
+       <vbox>
+
