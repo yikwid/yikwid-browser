@@ -45,3 +45,4 @@ patches/yikwid-remove-formautofill-preferences.patch
 patches/yikwid-no-search-engine-loading.patch
 patches/yikwid-remove-suggestion-prefs.patch
 patches/yikwid-allow-yikwid-new-tabs.patch
+patches/yikwid-remove-homepage-selection.patch
