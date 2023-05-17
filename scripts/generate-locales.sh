@@ -39,6 +39,9 @@ generate_locale() {
   echo_status
 }
 
+# Yikwid: only en-US locale
+echo "en-US" > browser/locales/shipped-locales
+
 while read in; do
   ((n=n%N)); ((n++==0)) && wait
   generate_locale $in &
