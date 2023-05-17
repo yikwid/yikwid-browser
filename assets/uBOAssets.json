@@ -2,7 +2,7 @@
   "assets.json": {
     "content": "internal",
     "updateAfter": 13,
-    "contentURL": "https://gitlab.com/librewolf-community/browser/source/-/raw/main/assets/uBOAssets.json"
+    "contentURL": "https://raw.githubusercontent.com/yikwid/yikwid-browser/main/assets/uBOAssets.json"
   },
   "public_suffix_list.dat": {
     "content": "internal",
