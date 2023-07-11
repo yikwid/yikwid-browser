@@ -11,14 +11,14 @@
 !define BrandFullNameInternal "YikwidBrowser"
 !define BrandFullName         "Yikwid Browser"
 !define CompanyName           "Yikwid"
-!define URLInfoAbout          "https://www.libreWolf.gitlab.io"
-!define HelpLink              "https://github.com/LibreWolf-Browser"
+!define URLInfoAbout          "https://yikwid.net"
+!define HelpLink              "https://github.com/yikwid/yikwid-browser"
 
-!define URLStubDownloadX86 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
-!define URLStubDownloadAMD64 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
-!define URLStubDownloadAArch64 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
-!define URLManualDownload "https://github.com/LibreWolf-Browser/LibreWolf/releases"
-!define URLSystemRequirements "https://github.com/LibreWolf-Browser/LibreWolf"
+!define URLStubDownloadX86 "https://github.com/yikwid/yikwid-browser/releases"
+!define URLStubDownloadAMD64 "https://github.com/yikwid/yikwid-browser/releases"
+!define URLStubDownloadAArch64 "https://github.com/yikwid/yikwid-browser/releases"
+!define URLManualDownload "https://github.com/yikwid/yikwid-browser/releases"
+!define URLSystemRequirements "https://github.com/yikwid/yikwid-browser"
 !define Channel "unofficial"
 
 # The installer's certificate name and issuer expected by the stub installer

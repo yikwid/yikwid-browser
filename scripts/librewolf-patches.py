@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #
-# The script that patches the firefox source into the librewolf source.
+# The script that patches the firefox source into the librewolf/yikwid source.
 #
 
 
