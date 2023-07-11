@@ -28,7 +28,7 @@ ac_add_options --with-app-basename=Yikwid
 
 
 ac_add_options --with-branding=browser/branding/yikwid
-ac_add_options --with-distribution-id=io.gitlab.librewolf-community
+ac_add_options --with-distribution-id=net.yikwid
 ac_add_options --with-unsigned-addon-scopes=app,system
 ac_add_options --allow-addon-sideload
 # see issue # https://gitlab.com/librewolf-community/browser/arch/-/issues/49
