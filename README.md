@@ -1,85 +1,27 @@
-# LibreWolf Source Repository
+# Yikwid Browser Source Repository
 
-This repository contains all the patches and theming that make up LibreWolf, as well as scripts and a Makefile to build LibreWolf. There also is the [Settings repository](https://gitlab.com/librewolf-community/settings), which contains the LibreWolf preferences.
+This repository contains all the patches and theming that make up Yikwid Browser, as well as scripts and a Makefile to build it. There also is the [Settings repository](https://github.com/yikwid/yikwid-browser-settings), which contains the browser preferences.
 
-## LibreWolf overview
+## Yikwid Browser build instructions
 
-```mermaid
-graph LR
-    FFSRC(Firefox Source)
-
-    FFSRC--Tarball--->Source
-
-    subgraph librewolf-community/
-    Settings(Settings)--"librewolf.cfg<br>policies.json"-->Source
-    Website(Website<br><br>- Documentation<br>- FAQ)
-    subgraph browser/
-        Source(Source<br><br>- Patches<br>- Theming<br>- Build scripts)
-        bsys6(bsys6<br><br>New Docker building<br>repository)
-        bsys5(bsys5<br><br>Old Docker building<br>repository)
-        AppImage
-        Arch
-    end
-    end
-    Website-->librewolf.net
-    Source--"Source tarball"-->bsys6 & bsys5
-    AppImage--".appimage"-->librewolf.net
-    bsys6--"Windows setup.exe"--->librewolf.net
-    bsys6--"Windows portable.zip"--->librewolf.net
-    bsys6--"Windows .msix"--->MS("Microsoft Store")
-    bsys6--"Windows .nupkg"--->Chocolatey
-    bsys6--"Linux binary tarball"--->Flathub
-    bsys6--"Linux binary tarball"--> AppImage
-    bsys6--"Linux binary tarball for `librewolf-bin`"--> Arch
-    Source--"Source tarball for `librewolf`"-->Arch
-    Arch-->AUR
-    bsys5--"Linux .deb"--->deb.librewolf.net
-    bsys5--"Linux .rpm"--->rpm.librewolf.net
-```
-
-## Active repositories and projects
-
-List of browser build sub projects. These are the locations where people have their repositories and build artifacts.
-
-Currently active build repositories:
-
-* [Arch](https://gitlab.com/librewolf-community/browser/arch): Arch Linux
-* [Bsys5](https://gitlab.com/librewolf-community/browser/bsys5): .deb/.rpm for Mint, Fedora, Ubuntu; .dmg for MacOS.
-* [Debian](https://gitlab.com/librewolf-community/browser/debian): bgstack15 version
-* [Fedora](https://gitlab.com/librewolf-community/browser/fedora): bgstack15 version
-* [Flatpak](https://gitlab.com/librewolf-community/browser/flatpak): Flatpak
-* [Gentoo](https://gitlab.com/librewolf-community/browser/gentoo): Gentoo
-* [Linux](https://gitlab.com/librewolf-community/browser/linux): Flatpak, AppImage, Arch and other Linux builds of the LibreWolf browser.
-* [MacOS](https://gitlab.com/librewolf-community/browser/macos): The macOS build of LibreWolf.
-* [OpenBSD](https://librewolf.net/installation/openbsd/): OpenBSD page
-* [Windows](https://gitlab.com/librewolf-community/browser/windows): LibreWolf builds for Windows.
-
-Currently active (and known) forks:
-
-* Cachy-Browser: https://github.com/cachyos/cachyos-browser-settings
-* FireDragon: https://github.com/dr460nf1r3/firedragon-browser
-
-## LibreWolf build instructions
-
-There are two ways to build LibreWolf. You can either use the source tarball or compile directly with this repository.
+There are two ways to build the Yikwid Browser. You can either use the source tarball or compile directly with this repository.
 
 ### Building from the Tarball
 
-First, let's **[download the latest tarball](https://gitlab.com/librewolf-community/browser/source/-/releases)**. This tarball is the latest produced by the [CI](https://gitlab.com/librewolf-community/browser/source/-/jobs). You can also check the sha256sum of the tarball there.
-
+First, **[download the latest tarball](https://github/yikwid/yikwid-browser/releases)**.
 ```
 tar xf <tarball>
 cd <folder>
 ```
 
-Then, you have to bootstrap your system to be able to build LibreWolf. You only have to do this one time. It is done by running the following commands:
+Then you have to bootstrap your system to be able to build it. You only have to do this one time. It is done by running the following commands:
 
 ```
 ./mach --no-interactive bootstrap --application-choice=browser
 ./lw/setup-wasi-linux.sh
 ```
 
-Finally you can build LibreWolf and then package or run it with the following commands:
+Finally you can build the browser and then package or run it with the following commands:
 
 ```
 ./mach build
@@ -93,23 +35,23 @@ Finally you can build LibreWolf and then package or run it with the following co
 First, clone this repository with Git:
 
 ```
-git clone --recursive https://gitlab.com/librewolf-community/browser/source.git librewolf-source
-cd librewolf-source
+git clone --recursive https://github.com/yikwid/yikwid-browser.git yikwid-browser
+cd yikwid-browser
 ```
 
-Next, build the LibreWolf source code with the following command:
+Next, build the source code with the following command:
 
 ```
 make dir
 ```
 
-After that, you have to bootstrap your system to be able to build LibreWolf. You only have to do this one time. It is done by running the following command:
+After that, you have to bootstrap your system to be able to build Yikwid Browser. You only have to do this one time. It is done by running the following command:
 
 ```
 make bootstrap
 ```
 
-Finally you can build LibreWolf and then package or run it with the following commands:
+Finally you can build the browser and then package or run it with the following commands:
 
 ```
 make build
@@ -122,19 +64,17 @@ make run
 
 ### How to make a patch
 
-The easiest way to make patches is to go to the LibreWolf source folder:
+The easiest way to make patches is to go to the Yikwid Browser source folder:
 ```
-cd librewolf-$(cat version)
+cd yikwid-$(cat version)
 git init
 git add <path_to_file_you_changed>
 git commit -am initial-commit
 git diff > ../mypatch.patch
 ```
-We have Gitter / Matrix rooms, and on the website we have links to the various issue trackers.
-
 ### How to work on an existing patch
 
-The easiest way to make patches is to go to the LibreWolf source folder:
+The easiest way to make patches is to go to the Yikwid Browser source folder:
 ```
 make fetch # get the firefox tarball
 ./scripts/git-patchtree.sh patches/sed-patches/disable-pocket.patch
@@ -155,7 +95,7 @@ Well, first of all:
 * Handy link: [Bugs Filed Today](https://bugzilla.mozilla.org/buglist.cgi?cmdtype=dorem&remaction=run&namedcmd=Bugs%20Filed%20Today&sharer_id=1&list_id=15939480).
 * The essential: [Firefox Source Tree Documentation](https://firefox-source-docs.mozilla.org/).
 
-Now that you have a patch in LibreWolf, that's not enough to upload to Mozilla. See, Mozilla only accepts patches against Nightly. So here is how to do that:
+Now that you have a patch in Yikwid Browser, that's not enough to upload to Mozilla. See, Mozilla only accepts patches against Nightly. So here is how to do that:
 
 If you have not done already, create the `mozilla-unified` folder and build Firefox with it:
 ```

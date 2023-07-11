@@ -4,22 +4,16 @@ Source Documentation
 Our upstream dependencies:
 
 * Mozilla Firefox
+* LibreWolf
 * uBlock Origin
+* I still don't care about cookies
 
 LibreWolf consists of two parts:
 
 * Settings
 * Browser Source
 
-These two combined produce the `librewolf-<version>.source.tar.gz` release tarbal (using gitlab.com CI.)
+These two combined produce the `yikwid-<version>.source.tar.gz` release tarball.
 
-This tarball contains a `Makefile` that allows you to build and patch the LibreWolf sources.
-
-The repositories are maintained by the:
-
-Core Team section
-=================
-
-(images from homepage)
-
+This tarball contains a `Makefile` that allows you to build and patch the Yikwid Browser sources.
 
