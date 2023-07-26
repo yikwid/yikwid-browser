@@ -1,17 +1,16 @@
---- a/toolkit/components/extensions/Extension.jsm
-+++ b/toolkit/components/extensions/Extension.jsm
-@@ -3166,6 +3166,14 @@ class Extension extends ExtensionData {
-         this.permissions.add(PRIVATE_ALLOWED_PERMISSION);
-       }
+--- a/toolkit/components/extensions/Extension.sys.mjs
++++ b/toolkit/components/extensions/Extension.sys.mjs
+@@ -3506,6 +3506,13 @@ export class Extension extends ExtensionData {
+       this.permissions.add(PRIVATE_ALLOWED_PERMISSION);
+     }
  
-+      if (this.id === "idcac-pub@guus.ninja") {
-+        lazy.ExtensionPermissions.add(this.id, {
-+          permissions: [PRIVATE_ALLOWED_PERMISSION],
-+          origins: [],
-+        });
-+        this.permissions.add(PRIVATE_ALLOWED_PERMISSION);
-+      }
-+
-       // We only want to update the SVG_CONTEXT_PROPERTIES_PERMISSION during install and
-       // upgrade/downgrade startups.
-       if (INSTALL_AND_UPDATE_STARTUP_REASONS.has(this.startupReason)) {
++    if (this.id === "idcac-pub@guus.ninja") {
++      lazy.ExtensionPermissions.add(this.id, {
++        permissions: [PRIVATE_ALLOWED_PERMISSION],
++        origins: [],
++      });
++      this.permissions.add(PRIVATE_ALLOWED_PERMISSION);
++    }
+ 
+     // We only want to update the SVG_CONTEXT_PROPERTIES_PERMISSION during
+     // install and upgrade/downgrade startups.

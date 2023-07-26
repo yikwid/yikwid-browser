@@ -1,6 +1,6 @@
 --- a/toolkit/components/search/SearchService.sys.mjs
 +++ b/toolkit/components/search/SearchService.sys.mjs
-@@ -1177,6 +1177,9 @@ export class SearchService {
+@@ -1215,6 +1215,9 @@ export class SearchService {
     *   The appropriate search engine, or null if one could not be determined.
     */
    _getEngineDefault(privateMode) {
@@ -10,17 +10,17 @@
      let currentEngine = privateMode
        ? this.#currentPrivateEngine
        : this.#currentEngine;
-@@ -1230,6 +1233,9 @@ export class SearchService {
+@@ -1268,6 +1271,9 @@ export class SearchService {
     * Throws in case of initialization error.
     */
    #ensureInitialized() {
 +    // Yikwid no search service
 +    return;
 +
-     if (this._initialized) {
-       if (!Components.isSuccessCode(this.#initRV)) {
-         lazy.logConsole.debug("#ensureInitialized: failure");
-@@ -1501,6 +1507,9 @@ export class SearchService {
+     if (this.#initializationStatus === "success") {
+       return;
+     }
+@@ -1551,6 +1557,9 @@ export class SearchService {
     *   An object representing the search engine settings.
     */
    async #loadEngines(settings) {
@@ -30,7 +30,7 @@
      // Get user's current settings and search engine before we load engines from
      // config. These values will be compared after engines are loaded.
      let prevMetaData = { ...settings?.metaData };
-@@ -1728,6 +1737,9 @@ export class SearchService {
+@@ -1780,6 +1789,9 @@ export class SearchService {
    // This is prefixed with _ rather than # because it is called in
    // test_remove_engine_notification_box.js
    async _reloadEngines(settings, changeReason) {
@@ -40,7 +40,7 @@
      // Capture the current engine state, in case we need to notify below.
      let prevCurrentEngine = this.#currentEngine;
      let prevPrivateEngine = this.#currentPrivateEngine;
-@@ -2819,6 +2831,9 @@ export class SearchService {
+@@ -2761,6 +2773,9 @@ export class SearchService {
     *   The appropriate search engine, or null if one could not be determined.
     */
    #findAndSetNewDefaultEngine({ privateMode }) {
