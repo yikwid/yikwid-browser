@@ -1,11 +1,9 @@
-diff --git a/browser/base/content/nsContextMenu.js b/browser/base/content/nsContextMenu.js
-index 8397d36..0f69333 100644
 --- a/browser/base/content/nsContextMenu.js
 +++ b/browser/base/content/nsContextMenu.js
-@@ -341,10 +341,13 @@ class nsContextMenu {
+@@ -352,10 +352,13 @@ class nsContextMenu {
+     this.initClipboardItems();
      this.initMediaPlayerItems();
      this.initLeaveDOMFullScreenItems();
-     this.initClickToPlayItems();
 -    this.initPasswordManagerItems();
 +    // Yikwid
 +    //this.initPasswordManagerItems();
@@ -18,7 +16,7 @@ index 8397d36..0f69333 100644
      this.initPDFItems();
  
      this.showHideSeparators(aXulMenu);
-@@ -786,7 +789,10 @@ class nsContextMenu {
+@@ -796,7 +799,10 @@ class nsContextMenu {
          !this.onMozExtLink) ||
          this.onPlainTextLink
      );
@@ -30,7 +28,7 @@ index 8397d36..0f69333 100644
      this.showItem("frame", this.inFrame);
  
      if (this.inFrame) {
-@@ -2371,7 +2377,8 @@ class nsContextMenu {
+@@ -2442,7 +2448,8 @@ class nsContextMenu {
      let menuItemPrivate = document.getElementById(
        "context-searchselect-private"
      );

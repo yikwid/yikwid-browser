@@ -1,0 +1,24 @@
+--- a/browser/components/preferences/main.js
++++ b/browser/components/preferences/main.js
+@@ -714,6 +714,11 @@ var gMainPane = {
+       }
+     }
+ 
++    // Yikwid settings hide search preferences
++    document
++      .getElementById("category-search")
++      .setAttribute("style", "display: none !important");
++
+     // Initilize Application section.
+ 
+     // Observe preferences that influence what we display so we can rebuild
+--- a/browser/components/preferences/dialogs/sanitize.xhtml
++++ b/browser/components/preferences/dialogs/sanitize.xhtml
+@@ -56,6 +56,7 @@
+           <checkbox
+             data-l10n-id="item-form-search-history"
+             preference="privacy.clearOnShutdown.formdata"
++            hidden="true"
+           />
+         </vbox>
+         <vbox>
