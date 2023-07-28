@@ -46,7 +46,7 @@ def exec(cmd, exit_on_fail = True, do_print = True):
         return None
 
 def patch(patchfile):
-    yw_patch = os.path.basename(patchfile).startswith("yikwid")
+    yw_patch = os.path.basename(patchfile.strip()).endswith(".git.patch")
     cmd = "patch -p1 -i {}".format(patchfile)
     if yw_patch:
         cmd = "git apply {}".format(patchfile)

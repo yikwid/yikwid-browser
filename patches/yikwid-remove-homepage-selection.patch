@@ -1,5 +1,3 @@
-diff --git a/browser/components/preferences/home.inc.xhtml.old b/browser/components/preferences/home.inc.xhtml
-index f72b112..dff2e01 100644
 --- a/browser/components/preferences/home.inc.xhtml
 +++ b/browser/components/preferences/home.inc.xhtml
 @@ -33,7 +33,6 @@
