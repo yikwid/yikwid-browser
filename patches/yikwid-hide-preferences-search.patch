@@ -1,0 +1,36 @@
+--- a/browser/components/preferences/findInPage.js
++++ b/browser/components/preferences/findInPage.js
+@@ -50,13 +50,14 @@ var gSearchResultsPane = {
+     });
+ 
+     if (!this.searchInput.hidden) {
+-      this.searchInput.addEventListener("input", this);
+-      this.searchInput.addEventListener("command", this);
+-      window.addEventListener("DOMContentLoaded", () => {
+-        this.searchInput.focus();
+-        // Initialize other panes in an idle callback.
+-        window.requestIdleCallback(() => this.initializeCategories());
+-      });
++      // Yikwid no search here for now until we filter results (but "hiding" it makes page look terrible)
++      // this.searchInput.addEventListener("input", this);
++      // this.searchInput.addEventListener("command", this);
++      // window.addEventListener("DOMContentLoaded", () => {
++      //   this.searchInput.focus();
++      //   // Initialize other panes in an idle callback.
++      //   window.requestIdleCallback(() => this.initializeCategories());
++      // });
+     }
+     ensureScrollPadding();
+   },
+--- a/browser/components/preferences/preferences.xhtml
++++ b/browser/components/preferences/preferences.xhtml
+@@ -211,7 +211,8 @@
+                 <html:a href="about:policies" target="_blank" data-l10n-id="managed-notice"/>
+               </hbox>
+             </hbox>
+-            <search-textbox
++            <!-- Yikwid no search box for now -->
++            <hbox
+               id="searchInput"
+               data-l10n-id="search-input-box2"
+               data-l10n-attrs="placeholder, style"
