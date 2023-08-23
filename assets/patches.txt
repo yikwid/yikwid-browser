@@ -49,3 +49,4 @@ patches/yikwid-remove-homepage-selection.patch
 patches/yikwid-hide-search-widget.patch
 patches/yikwid-remove-lw-links.patch
 patches/yikwid-private-page.patch
+patches/yikwid-hide-preferences-search.patch
