@@ -50,3 +50,4 @@ patches/yikwid-hide-search-widget.patch
 patches/yikwid-remove-lw-links.patch
 patches/yikwid-private-page.patch
 patches/yikwid-hide-preferences-search.patch
+patches/yikwid-remove-deadpage-suggestion.patch
