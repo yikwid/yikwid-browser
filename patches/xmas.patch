@@ -9,7 +9,7 @@ index 4d7a481..4daacdb 100644
 +; LibreWolf specific files.
 +@RESPATH@/defaults/pref/local-settings.js
 +@RESPATH@/distribution/policies.json
-+@RESPATH@/librewolf.cfg
++@RESPATH@/yikwid.cfg
 +
  ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
  ; Technically this is an app pref file, but we are keeping it in the original
@@ -20,7 +20,7 @@ index e69de29..8589aac 100644
 +++ b/lw/moz.build
 @@ -0,0 +1,12 @@
 +FINAL_TARGET_FILES += [
-+  "librewolf.cfg",
++  "yikwid.cfg",
 +]
 +
 +FINAL_TARGET_FILES.distribution += [

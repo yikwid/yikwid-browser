@@ -124,7 +124,7 @@ def librewolf_patches():
     # getting the librewolf settings repository
     exec("cp -v ../submodules/settings/defaults/pref/local-settings.js lw/")
     exec("cp -v ../submodules/settings/distribution/policies.json lw/")
-    exec("cp -v ../submodules/settings/librewolf.cfg lw/")
+    exec("cp -v ../submodules/settings/yikwid.cfg lw/")
 
 
     # provide a script that fetches and bootstraps Nightly and some mozconfigs
