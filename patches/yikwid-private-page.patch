@@ -33,11 +33,11 @@
    --in-content-text-color: white;
 -  --in-content-page-background: #25003e;
 +  --in-content-page-background: #006000;
-   --in-content-link-color-hover: white;
-   --in-content-link-color-active: white;
-   --in-content-banner-background: #f9f9fe;
-@@ -51,7 +51,9 @@ p {
- 
+   --link-color: white;
+   --link-color-hover: white;
+   --link-color-active: white;
+@@ -52,7 +52,9 @@ p {
+
  .logo-and-wordmark {
    align-items: center;
 -  display: flex;
