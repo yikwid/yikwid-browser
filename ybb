@@ -1,0 +1,124 @@
+#!/bin/bash
+
+# Yikwid Browser Builder
+set -e
+
+LW_GIT_REPO=https://codeberg.org/librewolf/source.git
+LW_CLONE_DIR=upstream-source
+
+THIS_SCRIPT_NAME="${BASH_SOURCE[0]##*/}"
+THIS_SCRIPT_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+
+upstream_cloned() {
+    [ -d "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}" ]
+}
+
+show_help() {
+    echo ""
+    echo "Yikwid Browser Builder: Script to manage the build process."
+    echo ""
+    echo "Usage: ${THIS_SCRIPT_NAME} [OPTION...] [ACTION]"
+    echo ""
+    echo "ACTIONS:"
+    echo "  init        - Initialize Yikwid Browser build environment"
+    echo "  reset       - Reset the upstream code repository (no update)"
+    echo "  pull        - Update upstream code repository (with update)"
+    echo "  apply       - Apply Yikwid patches to upstream code"
+    echo "OPTIONS:"
+    echo "  -d|--debug  - Enable debug info for '${THIS_SCRIPT_NAME}'"
+    echo "MAKE PASSTHRU ACTIONS:"
+    if upstream_cloned; then
+        cd "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}"
+        make help
+    else
+        echo "  (must run 'make init' before passthru options can be shown)"
+    fi
+    echo ""
+}
+
+if [[ $1 == "-h" || $1 == "--help" || $1 == "help" ]]; then
+    show_help
+    exit 0
+fi
+
+stderr() {
+    2>&1 echo "$*"
+}
+
+clone_upstream() {
+    if ! which git 2> /dev/null; then
+        stderr "ERROR: Must have 'git' installed and available."
+        exit 1
+    fi
+    git clone "$LW_GIT_REPO" "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}"
+}
+
+set_action() {
+    declare -g ACTION
+    if [[ -n $ACTION ]]; then
+        stderr "ERROR: Cannot set action to '$1' as it was already set to '$ACTION'."
+        exit 1
+    fi
+    ACTION="$1"
+}
+
+parse_args() {
+    declare -g -A OPTIONS
+    OPTIONS[DEBUG]=0
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+        all|check|update|clean|veryclean|bootstrap|setup-wasi|fetch|dir|build|package|run|check-patchfail|check-fuzz|fixfuz)
+            set_action passthru
+            declare -g PASSTHRU="$1"
+            shift;;
+        init|reset|pull|apply)
+            set_action "$1"
+            shift;;
+        -d|--debug)
+            OPTIONS[DEBUG]=1
+            shift;;
+        *)
+            echo "ERROR: Unknown argument: $1"
+            exit 1
+        esac
+    done
+}
+
+do_init() {
+    :
+}
+
+do_reset() {
+    :
+}
+
+do_pull() {
+    :
+}
+
+do_apply() {
+    :
+}
+
+do_action() {
+    if [[ -z $ACTION ]]; then
+        stderr "You must pass an action to run; try '$THIS_SCRIPT_NAME help' to see options."
+        exit 1
+    elif [[ $ACTION == passthru ]]; then
+        if ! upstream_cloned; then
+            stderr "ERROR: Cannot run passthru action '$PASSTHRU'; run '$THIS_SCRIPT_NAME init' first."
+            exit 1
+        fi
+
+        cd "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}"
+        make "$PASSTHRU"
+    else
+        if [[ ${OPTION[DEBUG]} -eq 1 ]]; then
+            set -x
+        fi
+        do_$ACTION
+    fi
+}
+
+parse_args "$@"
+do_action
