@@ -1,0 +1,67 @@
+--- a/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
++++ b/browser/locales/en-US/browser/aboutPrivateBrowsing.ftl
+@@ -13,14 +13,14 @@ about-private-browsing-search-btn =
+ about-private-browsing-handoff =
+     .title = Search with { $engine } or enter address
+ about-private-browsing-handoff-no-engine =
+-    .title = Search or enter address
++    .title = Enter address
+ # Variables
+ #  $engine (String): the name of the user's default search engine
+ about-private-browsing-handoff-text = Search with { $engine } or enter address
+-about-private-browsing-handoff-text-no-engine = Search or enter address
++about-private-browsing-handoff-text-no-engine = Enter address
+ about-private-browsing-not-private = You are currently not in a private window.
+-about-private-browsing-info-description-private-window = Private window: { -brand-short-name } clears your search and browsing history when you close all private windows. This doesn’t make you anonymous.
+-about-private-browsing-info-description-simplified = { -brand-short-name } clears your search and browsing history when you close all private windows, but this doesn’t make you anonymous.
++about-private-browsing-info-description-private-window = Private window: { -brand-short-name } clears your browsing history when you close all private windows. This doesn’t make you anonymous.
++about-private-browsing-info-description-simplified = { -brand-short-name } clears your browsing history when you close all private windows, but this doesn’t make you anonymous.
+ about-private-browsing-learn-more-link = Learn more
+ 
+ about-private-browsing-hide-activity = Hide your activity and location, everywhere you browse
+--- a/browser/locales/en-US/browser/newtab/newtab.ftl
++++ b/browser/locales/en-US/browser/newtab/newtab.ftl
+@@ -23,7 +23,7 @@ newtab-search-box-search-button =
+ # Variables:
+ #   $engine (string) - The name of the user's default search engine
+ newtab-search-box-handoff-text = Search with { $engine } or enter address
+-newtab-search-box-handoff-text-no-engine = Search or enter address
++newtab-search-box-handoff-text-no-engine = Enter address
+ # Variables:
+ #   $engine (string) - The name of the user's default search engine
+ newtab-search-box-handoff-input =
+@@ -31,9 +31,9 @@ newtab-search-box-handoff-input =
+     .title = Search with { $engine } or enter address
+     .aria-label = Search with { $engine } or enter address
+ newtab-search-box-handoff-input-no-engine =
+-    .placeholder = Search or enter address
+-    .title = Search or enter address
+-    .aria-label = Search or enter address
++    .placeholder = Enter address
++    .title = Enter address
++    .aria-label = Enter address
+ 
+ newtab-search-box-text = Search the web
+ newtab-search-box-input =
+--- a/browser/locales/en-US/browser/touchbar/touchbar.ftl
++++ b/browser/locales/en-US/browser/touchbar/touchbar.ftl
+@@ -15,7 +15,7 @@ new-tab = New tab
+ add-bookmark = Add bookmark
+ reader-view = Reader View
+ # Meant to match the string displayed in an empty URL bar.
+-open-location = Search or enter address
++open-location = Enter address
+ share = Share
+ close-window = Close Window
+ open-sidebar = Sidebars
+--- a/browser/locales/en-US/browser/browser.ftl
++++ b/browser/locales/en-US/browser/browser.ftl
+@@ -509,7 +509,7 @@ enable-devtools-popup-description2 = To use the F12 shortcut, first open DevTool
+ # This placeholder is used when not in search mode and the user's default search
+ # engine is unknown.
+ urlbar-placeholder =
+-  .placeholder = Search or enter address
++  .placeholder = Enter address
+ 
+ # This placeholder is used in search mode with search engines that search the
+ # entire web.

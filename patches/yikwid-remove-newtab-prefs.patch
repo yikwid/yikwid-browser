@@ -1,0 +1,12 @@
+--- a/browser/components/newtab/lib/AboutPreferences.jsm
++++ b/browser/components/newtab/lib/AboutPreferences.jsm
+@@ -152,6 +152,9 @@ class AboutPreferences {
+       element.disabled = Preferences.get(fullPref).locked;
+     };
+ 
++    // Yikwid: new tab is removed, don't display settings
++    return;
++
+     // Insert a new group immediately after the homepage one
+     const homeGroup = document.getElementById("homepageGroup");
+     const contentsGroup = homeGroup.insertAdjacentElement(

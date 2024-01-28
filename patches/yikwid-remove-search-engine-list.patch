@@ -1,0 +1,19 @@
+--- a/toolkit/components/search/SearchUtils.sys.mjs
++++ b/toolkit/components/search/SearchUtils.sys.mjs
+@@ -198,6 +198,8 @@ export var SearchUtils = {
+   // however this needs more definition on the "vertical" search terms, and the
+   // effects before we enable it.
+   GENERAL_SEARCH_ENGINE_IDS: new Set([
++    // Yikwid has no engines
++    /*
+     "google@search.mozilla.org",
+     "ddg@search.mozilla.org",
+     "bing@search.mozilla.org",
+@@ -206,6 +208,7 @@ export var SearchUtils = {
+     "qwant@search.mozilla.org",
+     "yahoo-jp@search.mozilla.org",
+     "yandex@search.mozilla.org",
++    */
+   ]),
+ 
+   /**

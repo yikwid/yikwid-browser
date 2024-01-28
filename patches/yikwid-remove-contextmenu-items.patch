@@ -1,0 +1,40 @@
+--- a/browser/base/content/nsContextMenu.js
++++ b/browser/base/content/nsContextMenu.js
+@@ -352,10 +352,13 @@ class nsContextMenu {
+     this.initClipboardItems();
+     this.initMediaPlayerItems();
+     this.initLeaveDOMFullScreenItems();
+-    this.initPasswordManagerItems();
++    // Yikwid
++    //this.initPasswordManagerItems();
+     this.initViewSourceItems();
+     this.initScreenshotItem();
+-    this.initPasswordControlItems();
++    // Yikwid
++    //this.initPasswordControlItems();
++    document.getElementById("context-reveal-password").hidden = true;
+     this.initPDFItems();
+ 
+     this.showHideSeparators(aXulMenu);
+@@ -796,7 +799,10 @@ class nsContextMenu {
+         !this.onMozExtLink) ||
+         this.onPlainTextLink
+     );
+-    this.showItem("context-keywordfield", this.shouldShowAddKeyword());
++    // Yikwid no search keyword
++    //this.showItem("context-keywordfield", this.shouldShowAddKeyword());
++    document.getElementById("context-keywordfield").hidden = true;
++
+     this.showItem("frame", this.inFrame);
+ 
+     if (this.inFrame) {
+@@ -2442,7 +2448,8 @@ class nsContextMenu {
+     let menuItemPrivate = document.getElementById(
+       "context-searchselect-private"
+     );
+-    if (!Services.search.isInitialized) {
++    // Yikwid always hide search context menu items
++    if (true || !Services.search.isInitialized) {
+       menuItem.hidden = true;
+       menuItemPrivate.hidden = true;
+       return;

@@ -1,0 +1,27 @@
+--- a/browser/base/content/browser.js
++++ b/browser/base/content/browser.js
+@@ -3986,6 +3986,10 @@ const BrowserSearch = {
+    *                                 placeholder is not displayed.
+    */
+   _updateURLBarPlaceholder(engineName, isPrivate, delayUpdate = false) {
++    // Yikwid remove custom URL placeholders
++    this._setURLBarPlaceholder();
++    return;
++
+     if (!engineName) {
+       throw new Error("Expected an engineName to be specified");
+     }
+@@ -4045,8 +4049,11 @@ const BrowserSearch = {
+   _setURLBarPlaceholder(name) {
+     document.l10n.setAttributes(
+       gURLBar.inputField,
+-      name ? "urlbar-placeholder-with-name" : "urlbar-placeholder",
+-      name ? { name } : undefined
++      // Yikwid only use default placeholder
++      "urlbar-placeholder",
++      undefined
++      //name ? "urlbar-placeholder-with-name" : "urlbar-placeholder",
++      //name ? { name } : undefined
+     );
+   },
+ 
