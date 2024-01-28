@@ -6,6 +6,7 @@ set -e
 LW_GIT_REPO=https://codeberg.org/librewolf/source.git
 LW_CLONE_TAG=121.0.1-1
 LW_CLONE_DIR=upstream-source
+YW_PATCH_DIR=yikwid-patched
 YW_BUILD_DIR=yikwid-source
 
 THIS_SCRIPT_NAME="${BASH_SOURCE[0]##*/}"
@@ -26,12 +27,13 @@ show_help() {
     echo "  reset       - Reset the upstream code repository (no update)"
     echo "  pull        - Update upstream code repository (with update)"
     echo "  apply       - Apply Yikwid patches to upstream code"
+    echo "  diff        - See diff from original source and modified source"
     echo "OPTIONS:"
     echo "  -d|--debug  - Enable debug info for '${THIS_SCRIPT_NAME}'"
     echo "MAKE PASSTHRU ACTIONS:"
     if upstream_cloned; then
         cd "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}"
-        make help
+        make help | grep -v '^\s*$'
     else
         echo "  (must run '$THIS_SCRIPT_NAME init' before passthru options can be shown)"
     fi
@@ -42,6 +44,12 @@ if [[ $1 == "-h" || $1 == "--help" || $1 == "help" ]]; then
     show_help
     exit 0
 fi
+
+cleanup_on_exit() {
+    while popd 1>/dev/null 2>&1; do :; done
+}
+
+trap cleanup_on_exit SIGINT SIGTERM EXIT
 
 stderr() {
     2>&1 echo "$*"
@@ -73,7 +81,7 @@ parse_args() {
             set_action passthru
             declare -g PASSTHRU="$1"
             shift;;
-        init|reset|pull|apply)
+        init|reset|pull|apply|diff)
             set_action "$1"
             shift;;
         -d|--debug)
@@ -99,7 +107,9 @@ check_prerequisites() {
 do_init() {
     if ! upstream_cloned; then
         git clone --single-branch --recurse-submodules --branch "$LW_CLONE_TAG" "$LW_GIT_REPO" "$LW_CLONE_DIR"
-        rsync -a "${LW_CLONE_DIR}/" "${YW_BUILD_DIR}/"
+        rsync -a "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
+        # TODO apply yw patches
+        rsync -a "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
     else
         echo "ERROR: Already initialized. Perhaps you meant to run 'reset' or 'pull' instead?"
         exit 1
@@ -108,9 +118,12 @@ do_init() {
 
 do_reset() {
     if upstream_cloned; then
+        # TODO confirm overwriting PATCH and BUILD dirs
         git -C "$LW_CLONE_DIR" reset --hard
         # TODO settings submodule
         # TODO add confirmation
+        # TODO YW_PATCH_DIR
+        # TODO YW_BUILD_DIR
     else
         echo "ERROR: Not yet initialized. Perhaps you meant to run 'init' instead?"
         exit 1
@@ -125,6 +138,12 @@ do_apply() {
     :
 }
 
+do_diff() {
+    pushd "$THIS_SCRIPT_DIR" 1>/dev/null 2>&1
+    diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
+    popd 1>/dev/null 2>&1
+}
+
 do_action() {
     if [[ -z $ACTION ]]; then
         stderr "You must pass an action to run; try '$THIS_SCRIPT_NAME help' to see options."
@@ -135,7 +154,7 @@ do_action() {
             exit 1
         fi
 
-        make -C "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}" "$PASSTHRU"
+        make -C "${THIS_SCRIPT_DIR}/${YW_BUILD_DIR}" "$PASSTHRU"
     else
         if [[ ${OPTION[DEBUG]} -eq 1 ]]; then
             set -x

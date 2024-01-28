@@ -1,3 +1,4 @@
 .*.sw[po]
 upstream-source/
 yikwid-source/
+yikwid-patched/
