@@ -8,6 +8,8 @@ LW_CLONE_TAG=121.0.1-1
 LW_CLONE_DIR=upstream-source
 YW_PATCH_DIR=yikwid-patched
 YW_BUILD_DIR=yikwid-source
+YW_SETTINGS_REPO=https://github.com/yikwid/yikwid-browser-settings.git
+YW_SETTIONS_TAG=yikwid-118.0.1-1
 
 THIS_SCRIPT_NAME="${BASH_SOURCE[0]##*/}"
 THIS_SCRIPT_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
@@ -47,6 +49,7 @@ fi
 
 cleanup_on_exit() {
     while popd 1>/dev/null 2>&1; do :; done
+    #rm -rf "${YW_PATCH_DIR}/.git" 2>/dev/null
 }
 
 trap cleanup_on_exit SIGINT SIGTERM EXIT
@@ -55,10 +58,22 @@ stderr() {
     2>&1 echo "$*"
 }
 
+die() {
+    stderr "ERROR: $*"
+    exit 1
+}
+
+go_dir() {
+    pushd "$1" 1>/dev/null 2>&1 || die "Could not change dir to $1"
+}
+
+go_back_dir() {
+    popd 1>/dev/null 2>&1 || die "Could not popd to previous dir"
+}
+
 clone_upstream() {
     if ! which git 2> /dev/null; then
-        stderr "ERROR: Must have 'git' installed and available."
-        exit 1
+        die "Must have 'git' installed and available."
     fi
     git clone "$LW_GIT_REPO" "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}"
 }
@@ -66,8 +81,7 @@ clone_upstream() {
 set_action() {
     declare -g ACTION
     if [[ -n $ACTION ]]; then
-        stderr "ERROR: Cannot set action to '$1' as it was already set to '$ACTION'."
-        exit 1
+        die "Cannot set action to '$1' as it was already set to '$ACTION'."
     fi
     ACTION="$1"
 }
@@ -88,8 +102,7 @@ parse_args() {
             OPTIONS[DEBUG]=1
             shift;;
         *)
-            echo "ERROR: Unknown argument: $1"
-            exit 1
+            die "Unknown argument: $1"
         esac
     done
 }
@@ -98,21 +111,74 @@ check_prerequisites() {
     APT_PKGS=(python3 python3-dev python3-pip)
     for APT_PKG in "${APT_PKG[@]}"; do
         if ! dpkg -s "$APT_PKG" > /dev/null 2>&1; then
-            echo "ERROR: Missing required package ($APT_PKG) from: ${APT_PKG[*]}"
-            exit 1
+            die "Missing required package ($APT_PKG) from: ${APT_PKG[*]}"
         fi
     done
 }
 
+apply_patch() {
+    PATCH_PATH="$1"
+    PATCH_DIR="$2"
+
+    go_dir "$PATCH_DIR"
+    if [[ $PATCH_PATH == *.git.patch ]]; then
+        #git init .
+        git apply "${THIS_SCRIPT_DIR}/${PATCH_PATH}" || die "Could not apply git.patch $PATCH_PATH"
+        #rm -r .git
+    else
+        patch -p1 --input="${THIS_SCRIPT_DIR}/${PATCH_PATH}" || die "Could not apply patch $PATCH_PATH"
+    fi
+    go_back_dir
+}
+
+do_patches() {
+    PATCH_DIR="$1"
+    SOURCE_DIR="$2"
+
+    for PATCH_PATH in "$PATCH_DIR/"*.patch; do
+        apply_patch "$PATCH_PATH" "$SOURCE_DIR"
+    done
+}
+
+add_lw_patches() {
+    PATCH_DIR="$1"
+    SOURCE_DIR="$2"
+
+    for PATCH_PATH in "$PATCH_DIR/"*.patch; do
+        cp "$PATCH_PATH" "${SOURCE_DIR}/patches"
+        # TODO avoid duplicate lines
+        echo "patches/$( basename "$PATCH_PATH" )" >> "${SOURCE_DIR}/assets/patches.txt"
+    done
+}
+
+do_passthru() {
+    PT_DIR="$1"
+    PT_VERB="$2"
+    make -C "$PT_DIR" "$PT_VERB"
+}
+
 do_init() {
+    # TODO confirm required packages from patches/pre/no-sudo-please.patch
+    # TODO confirm required packages from patches/lw/still-no-sudo.patch
     if ! upstream_cloned; then
-        git clone --single-branch --recurse-submodules --branch "$LW_CLONE_TAG" "$LW_GIT_REPO" "$LW_CLONE_DIR"
+        git clone --single-branch --branch "$LW_CLONE_TAG" "$LW_GIT_REPO" "$LW_CLONE_DIR"
+
+        do_patches "patches/pre" "$LW_CLONE_DIR"
+
+        git clone --single-branch --branch "$YW_SETTIONS_TAG" "$YW_SETTINGS_REPO" "$LW_CLONE_DIR/settings" 
+
+        add_lw_patches "patches/lw" "$LW_CLONE_DIR"
+
+        do_passthru "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}" bootstrap
+
         rsync -a "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
-        # TODO apply yw patches
+
+        # XXX using LW_CLONE_TAG in place of version
+        do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
+
         rsync -a "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
     else
-        echo "ERROR: Already initialized. Perhaps you meant to run 'reset' or 'pull' instead?"
-        exit 1
+        die "Already initialized. Perhaps you meant to run 'reset' or 'pull' instead?"
     fi
 }
 
@@ -125,8 +191,7 @@ do_reset() {
         # TODO YW_PATCH_DIR
         # TODO YW_BUILD_DIR
     else
-        echo "ERROR: Not yet initialized. Perhaps you meant to run 'init' instead?"
-        exit 1
+        die "Not yet initialized. Perhaps you meant to run 'init' instead?"
     fi
 }
 
@@ -139,22 +204,20 @@ do_apply() {
 }
 
 do_diff() {
-    pushd "$THIS_SCRIPT_DIR" 1>/dev/null 2>&1
+    go_dir "$THIS_SCRIPT_DIR"
     diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
-    popd 1>/dev/null 2>&1
+    go_back_dir
 }
 
 do_action() {
     if [[ -z $ACTION ]]; then
-        stderr "You must pass an action to run; try '$THIS_SCRIPT_NAME help' to see options."
-        exit 1
+        die "You must pass an action to run; try '$THIS_SCRIPT_NAME help' to see options."
     elif [[ $ACTION == passthru ]]; then
         if ! upstream_cloned; then
-            stderr "ERROR: Cannot run passthru action '$PASSTHRU'; run '$THIS_SCRIPT_NAME init' first."
-            exit 1
+            die "Cannot run passthru action '$PASSTHRU'; run '$THIS_SCRIPT_NAME init' first."
         fi
 
-        make -C "${THIS_SCRIPT_DIR}/${YW_BUILD_DIR}" "$PASSTHRU"
+        do_passthru "${THIS_SCRIPT_DIR}/${YW_BUILD_DIR}" "$PASSTHRU"
     else
         if [[ ${OPTION[DEBUG]} -eq 1 ]]; then
             set -x

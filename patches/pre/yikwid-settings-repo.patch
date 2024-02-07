@@ -1,0 +1,7 @@
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,3 +1,3 @@
+ [submodule "settings"]
+ 	path = settings
+-	url = https://codeberg.org/librewolf/settings.git
++	url = https://github.com/yikwid/yikwid-browser-settings.git

@@ -1,0 +1,24 @@
+--- a/python/mozboot/mozboot/linux_common.py
++++ b/python/mozboot/mozboot/linux_common.py
+@@ -71,20 +71,7 @@ class LinuxBootstrapper(MobileAndroidBootstrapper):
+         pass
+ 
+     def install_system_packages(self):
+-        self.install_packages(
+-            [
+-                "bash",
+-                "findutils",  # contains xargs
+-                "gzip",
+-                "libxml2",  # used by bootstrapped clang
+-                "m4",
+-                "make",
+-                "perl",
+-                "tar",
+-                "unzip",
+-                "watchman",
+-            ]
+-        )
++        pass
+ 
+     def install_browser_packages(self, mozconfig_builder, artifact_mode=False):
+         pass
