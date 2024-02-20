@@ -1,6 +1,6 @@
 --- a/toolkit/components/search/SearchService.sys.mjs
 +++ b/toolkit/components/search/SearchService.sys.mjs
-@@ -1215,6 +1215,9 @@ export class SearchService {
+@@ -1219,6 +1219,9 @@ export class SearchService {
     *   The appropriate search engine, or null if one could not be determined.
     */
    _getEngineDefault(privateMode) {
@@ -10,7 +10,7 @@
      let currentEngine = privateMode
        ? this.#currentPrivateEngine
        : this.#currentEngine;
-@@ -1268,6 +1271,9 @@ export class SearchService {
+@@ -1271,6 +1274,9 @@ export class SearchService {
     * Throws in case of initialization error.
     */
    #ensureInitialized() {
@@ -20,17 +20,17 @@
      if (this.#initializationStatus === "success") {
        return;
      }
-@@ -1551,6 +1557,9 @@ export class SearchService {
-    *   An object representing the search engine settings.
+@@ -1630,6 +1636,9 @@ export class SearchService {
+    *   An object representing the private default search engine.
     */
-   async #loadEngines(settings) {
+   async #loadEngines(settings, engines, privateDefault) {
 +    // Yikwid no engine loading
 +    return;
 +
      // Get user's current settings and search engine before we load engines from
      // config. These values will be compared after engines are loaded.
      let prevMetaData = { ...settings?.metaData };
-@@ -1780,6 +1789,9 @@ export class SearchService {
+@@ -1883,6 +1892,9 @@ export class SearchService {
    // This is prefixed with _ rather than # because it is called in
    // test_remove_engine_notification_box.js
    async _reloadEngines(settings, changeReason) {
@@ -40,7 +40,7 @@
      // Capture the current engine state, in case we need to notify below.
      let prevCurrentEngine = this.#currentEngine;
      let prevPrivateEngine = this.#currentPrivateEngine;
-@@ -2761,6 +2773,9 @@ export class SearchService {
+@@ -2864,6 +2876,9 @@ export class SearchService {
     *   The appropriate search engine, or null if one could not be determined.
     */
    #findAndSetNewDefaultEngine({ privateMode }) {

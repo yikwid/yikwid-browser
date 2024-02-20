@@ -22,9 +22,9 @@
 -        </button>
 -      </div>
 +      <!-- Yikwid removed private page dummy box -->
-       <div class="info">
-         <h1 id="info-title" hidden></h1>
-         <p
+       <div class="info-border">
+         <div class="info">
+           <h1 id="info-title" hidden></h1>
 --- a/browser/themes/shared/privatebrowsing/aboutPrivateBrowsing.css
 +++ b/browser/themes/shared/privatebrowsing/aboutPrivateBrowsing.css
 @@ -8,7 +8,7 @@
@@ -33,10 +33,10 @@
    --in-content-text-color: white;
 -  --in-content-page-background: #25003e;
 +  --in-content-page-background: #006000;
-   --in-content-link-color-hover: white;
-   --in-content-link-color-active: white;
-   --in-content-banner-background: #f9f9fe;
-@@ -51,7 +51,9 @@ p {
+   --link-color: white;
+   --link-color-hover: white;
+   --link-color-active: white;
+@@ -57,7 +57,9 @@ p {
  
  .logo-and-wordmark {
    align-items: center;

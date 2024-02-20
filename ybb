@@ -54,8 +54,16 @@ cleanup_on_exit() {
 
 trap cleanup_on_exit SIGINT SIGTERM EXIT
 
+verbose() {
+    echo "[$(date "+%F %T")] $*"
+}
+
 stderr() {
-    2>&1 echo "$*"
+    1>&2 echo "[$(date "+%F %T")] $*"
+}
+
+debug() {
+    stderr "DEBUG: $*"
 }
 
 die() {
@@ -116,6 +124,11 @@ check_prerequisites() {
     done
 }
 
+user_prompt() {
+    read -r -p "$* "
+    printf '%s' "$REPLY"
+}
+
 apply_patch() {
     PATCH_PATH="$1"
     PATCH_DIR="$2"
@@ -152,12 +165,14 @@ add_lw_patches() {
 }
 
 do_passthru() {
+    debug "Starting do_passthru"
     PT_DIR="$1"
     PT_VERB="$2"
     make -C "$PT_DIR" "$PT_VERB"
 }
 
 do_init() {
+    debug "Starting do_init"
     # TODO confirm required packages from patches/pre/no-sudo-please.patch
     # TODO confirm required packages from patches/lw/still-no-sudo.patch
     if ! upstream_cloned; then
@@ -165,31 +180,34 @@ do_init() {
 
         do_patches "patches/pre" "$LW_CLONE_DIR"
 
-        git clone --single-branch --branch "$YW_SETTIONS_TAG" "$YW_SETTINGS_REPO" "$LW_CLONE_DIR/settings" 
+        git clone --single-branch --branch "$YW_SETTIONS_TAG" "$YW_SETTINGS_REPO" "$LW_CLONE_DIR/settings"
 
         add_lw_patches "patches/lw" "$LW_CLONE_DIR"
 
         do_passthru "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}" bootstrap
 
-        rsync -a "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
-
-        # XXX using LW_CLONE_TAG in place of version
-        do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
-
-        rsync -a "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
+        do_reset "force"
     else
         die "Already initialized. Perhaps you meant to run 'reset' or 'pull' instead?"
     fi
 }
 
 do_reset() {
+    debug "Starting do_reset"
     if upstream_cloned; then
-        # TODO confirm overwriting PATCH and BUILD dirs
-        git -C "$LW_CLONE_DIR" reset --hard
-        # TODO settings submodule
-        # TODO add confirmation
-        # TODO YW_PATCH_DIR
-        # TODO YW_BUILD_DIR
+        if [[ $1 != "force" ]]; then
+            CONFIRM=$(user_prompt "Reset both $YW_PATCH_DIR and $YW_BUILD_DIR dirs, discarding changes? (y/N)")
+            [[ $CONFIRM == 'y' ]] || die "Reset aborted."
+        fi
+        git -C "${LW_CLONE_DIR}" reset --hard
+        git -C "${LW_CLONE_DIR}/settings" reset --hard
+
+        rsync -a --del "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
+
+        # XXX using LW_CLONE_TAG in place of version
+        do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
+
+        rsync -a --del "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
     else
         die "Not yet initialized. Perhaps you meant to run 'init' instead?"
     fi
