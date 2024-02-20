@@ -1,0 +1,20 @@
+--- a/lw/moz.build
++++ b/lw/moz.build
+@@ -1,5 +1,5 @@
+ FINAL_TARGET_FILES += [
+-  "librewolf.cfg",
++  "yikwid.cfg",
+ ]
+ 
+ FINAL_TARGET_FILES.distribution += [
+--- a/browser/installer/package-manifest.in
++++ b/browser/installer/package-manifest.in
+@@ -263,7 +263,7 @@
+ ; LibreWolf specific files.
+ @RESPATH@/defaults/pref/local-settings.js
+ @RESPATH@/distribution/policies.json
+-@RESPATH@/librewolf.cfg
++@RESPATH@/yikwid.cfg
+ 
+ ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
+ ; Technically this is an app pref file, but we are keeping it in the original

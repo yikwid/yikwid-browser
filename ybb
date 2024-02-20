@@ -49,7 +49,8 @@ fi
 
 cleanup_on_exit() {
     while popd 1>/dev/null 2>&1; do :; done
-    #rm -rf "${YW_PATCH_DIR}/.git" 2>/dev/null
+    rm -rf "${YW_PATCH_DIR}/.git" 2>/dev/null
+    rm -rf "${YW_BUILD_DIR}/.git" 2>/dev/null
 }
 
 trap cleanup_on_exit SIGINT SIGTERM EXIT
@@ -135,9 +136,9 @@ apply_patch() {
 
     go_dir "$PATCH_DIR"
     if [[ $PATCH_PATH == *.git.patch ]]; then
-        #git init .
+        git init .
         git apply "${THIS_SCRIPT_DIR}/${PATCH_PATH}" || die "Could not apply git.patch $PATCH_PATH"
-        #rm -r .git
+        rm -r .git
     else
         patch -p1 --input="${THIS_SCRIPT_DIR}/${PATCH_PATH}" || die "Could not apply patch $PATCH_PATH"
     fi
@@ -204,7 +205,10 @@ do_reset() {
 
         rsync -a --del "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
 
-        # XXX using LW_CLONE_TAG in place of version
+        do_patches "patches/pre" "$YW_PATCH_DIR"
+        add_lw_patches "patches/lw" "$YW_PATCH_DIR"
+
+        # XXX using LW_CLONE_TAG in place of version for now
         do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
 
         rsync -a --del "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
