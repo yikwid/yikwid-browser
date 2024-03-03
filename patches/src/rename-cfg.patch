@@ -1,5 +1,5 @@
---- a/lw/moz.build
-+++ b/lw/moz.build
+--- a/yw/moz.build
++++ b/yw/moz.build
 @@ -1,5 +1,5 @@
  FINAL_TARGET_FILES += [
 -  "librewolf.cfg",
@@ -18,3 +18,11 @@
  
  ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
  ; Technically this is an app pref file, but we are keeping it in the original
+--- a/moz.build
++++ b/moz.build
+@@ -219,4 +219,4 @@
+ 
+ include("build/templates.mozbuild")
+ 
+-DIRS += ["lw"]
++DIRS += ["yw"]

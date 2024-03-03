@@ -1,0 +1,63 @@
+--- a/themes/browser/branding/librewolf/locales/en-US/brand.dtd
++++ b/themes/browser/branding/librewolf/locales/en-US/brand.dtd
+@@ -2,12 +2,12 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+-<!ENTITY  brandShorterName      "LibreWolf">
+-<!ENTITY  brandShortName        "LibreWolf">
+-<!ENTITY  brandFullName         "LibreWolf">
++<!ENTITY  brandShorterName      "Yikwid">
++<!ENTITY  brandShortName        "Yikwid">
++<!ENTITY  brandFullName         "Yikwid Browser">
+ <!-- LOCALIZATION NOTE (brandProductName):
+    This brand name can be used in messages where the product name needs to
+    remain unchanged across different versions (Nightly, Beta, etc.). -->
+-<!ENTITY  brandProductName      "LibreWolf">
+-<!ENTITY  vendorShortName       "LibreWolf">
++<!ENTITY  brandProductName      "Yikwid">
++<!ENTITY  vendorShortName       "Yikwid">
+ <!ENTITY  trademarkInfo.part1   " ">
+--- a/themes/browser/branding/librewolf/locales/en-US/brand.ftl
++++ b/themes/browser/branding/librewolf/locales/en-US/brand.ftl
+@@ -12,12 +12,12 @@
+ ##
+ ## Reference: https://www.mozilla.org/styleguide/communications/translation/
+ 
+--brand-shorter-name = LibreWolf
+--brand-short-name = LibreWolf
+--brand-full-name = LibreWolf
+--brand-shortcut-name = LibreWolf
++-brand-shorter-name = Yikwid
++-brand-short-name = Yikwid
++-brand-full-name = Yikwid Browser
++-brand-shortcut-name = Yikwid
+ # This brand name can be used in messages where the product name needs to
+ # remain unchanged across different versions (Nightly, Beta, etc.).
+--brand-product-name = LibreWolf
+--vendor-short-name = LibreWolf
++-brand-product-name = Yikwid
++-vendor-short-name = Yikwid
+ trademarkInfo = { " " }
+--- a/themes/browser/branding/librewolf/locales/en-US/brand.properties
++++ b/themes/browser/branding/librewolf/locales/en-US/brand.properties
+@@ -2,13 +2,13 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-brandShorterName=LibreWolf
+-brandShortName=LibreWolf
+-brandFullName=LibreWolf
++brandShorterName=Yikwid
++brandShortName=Yikwid
++brandFullName=Yikwid Browser
+ # LOCALIZATION NOTE(brandProductName):
+ # This brand name can be used in messages where the product name needs to
+ # remain unchanged across different versions (Nightly, Beta, etc.).
+-brandProductName=LibreWolf
+-vendorShortName=LibreWolf
++brandProductName=Yikwid
++vendorShortName=Yikwid
+ 
+-syncBrandShortName=LibreWolf Sync
++syncBrandShortName=Yikwid Sync

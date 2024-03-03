@@ -1,0 +1,48 @@
+--- a/themes/browser/branding/librewolf/branding.nsi
++++ b/themes/browser/branding/librewolf/branding.nsi
+@@ -8,17 +8,17 @@
+ 
+ # BrandFullNameInternal is used for some registry and file system values
+ # instead of BrandFullName and typically should not be modified.
+-!define BrandFullNameInternal "LibreWolf"
+-!define BrandFullName         "LibreWolf"
+-!define CompanyName           "LibreWolf"
+-!define URLInfoAbout          "https://www.libreWolf.gitlab.io"
+-!define HelpLink              "https://github.com/LibreWolf-Browser"
++!define BrandFullNameInternal "YikwidBrowser"
++!define BrandFullName         "Yikwid Browser"
++!define CompanyName           "Yikwid LLC"
++!define URLInfoAbout          "https://yikwid.net"
++!define HelpLink              "https://github.com/yikwid"
+ 
+-!define URLStubDownloadX86 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
+-!define URLStubDownloadAMD64 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
+-!define URLStubDownloadAArch64 "https://github.com/LibreWolf-Browser/LibreWolf/releases"
+-!define URLManualDownload "https://github.com/LibreWolf-Browser/LibreWolf/releases"
+-!define URLSystemRequirements "https://github.com/LibreWolf-Browser/LibreWolf"
++!define URLStubDownloadX86 "https://github.com/yikwid/yikwid-browser/releases"
++!define URLStubDownloadAMD64 "https://github.com/yikwid/yikwid-browser/releases"
++!define URLStubDownloadAArch64 "https://github.com/yikwid/yikwid-browser/releases"
++!define URLManualDownload "https://github.com/yikwid/yikwid-browser/releases"
++!define URLSystemRequirements "https://github.com/yikwid/yikwid-browser"
+ !define Channel "unofficial"
+ 
+ # The installer's certificate name and issuer expected by the stub installer
+--- a/themes/browser/branding/librewolf/configure.sh
++++ b/themes/browser/branding/librewolf/configure.sh
+@@ -5,9 +5,9 @@
+ # there is a possible patch to consider when changing this:
+ # see: patches/browser-confvars.patch
+ 
+-MOZ_APP_NAME=librewolf
+-MOZ_APP_BASENAME=LibreWolf
+-MOZ_APP_PROFILE=librewolf
+-MOZ_APP_VENDOR=LibreWolf
+-MOZ_APP_DISPLAYNAME=LibreWolf
+-MOZ_APP_REMOTINGNAME=LibreWolf
++MOZ_APP_NAME=yikwid
++MOZ_APP_BASENAME=Yikwid
++MOZ_APP_PROFILE=yikwid
++MOZ_APP_VENDOR=Yikwid
++MOZ_APP_DISPLAYNAME=Yikwid
++MOZ_APP_REMOTINGNAME=Yikwid

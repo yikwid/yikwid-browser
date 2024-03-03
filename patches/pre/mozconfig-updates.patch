@@ -1,0 +1,64 @@
+--- a/assets/mozconfig.new
++++ b/assets/mozconfig.new
+@@ -13,8 +13,8 @@
+ ac_add_options --enable-release
+ ac_add_options --enable-rust-simd
+ 
+-ac_add_options --with-app-name=librewolf
+-ac_add_options --with-branding=browser/branding/librewolf
++ac_add_options --with-app-name=yikwid
++ac_add_options --with-branding=browser/branding/yikwid
+ 
+ ac_add_options --with-unsigned-addon-scopes=app,system
+ 
+--- a/assets/mozconfig.new.without-bootstrap
++++ b/assets/mozconfig.new.without-bootstrap
+@@ -13,8 +13,8 @@
+ ac_add_options --enable-release
+ ac_add_options --enable-rust-simd
+ 
+-ac_add_options --with-app-name=librewolf
+-ac_add_options --with-branding=browser/branding/librewolf
++ac_add_options --with-app-name=yikwid
++ac_add_options --with-branding=browser/branding/yikwid
+ 
+ ac_add_options --with-unsigned-addon-scopes=app,system
+ 
+--- a/assets/mozconfig.sample.1
++++ b/assets/mozconfig.sample.1
+@@ -36,7 +36,7 @@
+ export MOZ_REQUIRE_SIGNING=
+ 
+ # branding..
+-ac_add_options --with-branding=browser/branding/librewolf
++ac_add_options --with-branding=browser/branding/yikwid
+ 
+ # This is needed for the sandboxed wasm libraries. If you already have them installed, you can remove this.
+ ac_add_options --enable-bootstrap
+@@ -44,5 +44,5 @@
+ # this setting kills windows, but that's ok for now
+ # the problem with windows is probably somewhere in the theme files
+ # that nobody wants to touch..
+-ac_add_options --with-app-name=librewolf
++ac_add_options --with-app-name=yikwid
+ 
+--- a/assets/mozconfig.windows
++++ b/assets/mozconfig.windows
+@@ -22,13 +22,13 @@
+ 
+ # theming bugs: ac_add_options --with-app-name=librewolf
+ # theming bugs: ac_add_options --with-app-basename=LibreWolf
+-ac_add_options --with-app-name=librewolf
+-ac_add_options --with-app-basename=LibreWolf
++ac_add_options --with-app-name=yikwid
++ac_add_options --with-app-basename=Yikwid Browser
+ 
+ 
+ 
+-ac_add_options --with-branding=browser/branding/librewolf
+-ac_add_options --with-distribution-id=io.gitlab.librewolf-community
++ac_add_options --with-branding=browser/branding/yikwid
++ac_add_options --with-distribution-id=net.yikwid
+ ac_add_options --with-unsigned-addon-scopes=app,system
+ ac_add_options --allow-addon-sideload
+ # see issue # https://gitlab.com/librewolf-community/browser/arch/-/issues/49

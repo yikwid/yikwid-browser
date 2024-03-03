@@ -20,14 +20,3 @@ LNkvXXu0mjfGsq0i
 literal 0
 HcmV?d00001
 
---- a/browser/themes/shared/preferences/preferences.css
-+++ b/browser/themes/shared/preferences/preferences.css
-@@ -212,7 +212,7 @@ checkbox {
- }
- 
- #category-librewolf > .category-icon {
--  list-style-image: url("chrome://browser/skin/preferences/category-librewolf.svg");
-+  list-style-image: url("chrome://browser/skin/preferences/category-yikwid.png");
- }
- 
- #category-sync > .category-icon {

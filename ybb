@@ -26,7 +26,8 @@ show_help() {
     echo ""
     echo "ACTIONS:"
     echo "  init        - Initialize Yikwid Browser build environment"
-    echo "  reset       - Reset the upstream code repository (no update)"
+    echo "  reset       - Reset the $YW_PATCH_DIR/ and $YW_BUILD_DIR/ (no update)"
+    echo "  fullreset   - Reset the $LW_CLONE_DIR/ upstream repository (no update)"
     echo "  pull        - Update upstream code repository (with update)"
     echo "  apply       - Apply Yikwid patches to upstream code"
     echo "  diff        - See diff from original source and modified source"
@@ -197,7 +198,7 @@ do_reset() {
     debug "Starting do_reset"
     if upstream_cloned; then
         if [[ $1 != "force" ]]; then
-            CONFIRM=$(user_prompt "Reset both $YW_PATCH_DIR and $YW_BUILD_DIR dirs, discarding changes? (y/N)")
+            CONFIRM=$(user_prompt "Reset both $YW_PATCH_DIR/ and $YW_BUILD_DIR/ dirs, discarding changes? (y/N)")
             [[ $CONFIRM == 'y' ]] || die "Reset aborted."
         fi
         git -C "${LW_CLONE_DIR}" reset --hard
@@ -207,6 +208,7 @@ do_reset() {
 
         do_patches "patches/pre" "$YW_PATCH_DIR"
         add_lw_patches "patches/lw" "$YW_PATCH_DIR"
+        mv "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}/lw/"* "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}/yw/"
 
         # XXX using LW_CLONE_TAG in place of version for now
         do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
@@ -215,6 +217,10 @@ do_reset() {
     else
         die "Not yet initialized. Perhaps you meant to run 'init' instead?"
     fi
+}
+
+do_fullreset() {
+    :
 }
 
 do_pull() {

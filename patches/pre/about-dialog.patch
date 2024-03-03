@@ -1,0 +1,69 @@
+--- a/themes/browser/base/content/aboutDialog.css
++++ b/themes/browser/base/content/aboutDialog.css
+@@ -3,7 +3,7 @@
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
+ #aboutDialog {
+-  border-bottom: #00acff 2px solid;
++  border-bottom: #00ff00 2px solid;
+ }
+ 
+ #grid {
+@@ -19,12 +19,16 @@
+ #left {
+   width: 150px;
+   flex-shrink: 0.5;
++  font-size: 7em;
++  color: lime;
++  display: flex;
++  justify-content: center;
++  align-items: center;
++  font-style: italic;
++  font-family: mono;
+   height: 150px;
+   margin: 25px;
+-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgNjcuNzMzIDY3LjczMyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQyLjEwNyAtMTUzLjg5OCkiPjxjaXJjbGUgY3g9Ijc1Ljk3MyIgY3k9IjE4Ny43NjUiIHI9IjMzLjg2NyIgZmlsbD0iIzAwYWNmZiIvPjxwYXRoIGQ9Ik03Mi41NDQgMjE0LjY3N2MtNC43NDQtLjYwOS05LjI4Mi0yLjUtMTMuMjQyLTUuNTE4LTEuMjkyLS45ODUtMy43MTUtMy40MjQtNC43NzMtNC44MDQtMi45NjMtMy44NjUtNC44MDUtOC4yNS01LjQxMi0xMi44ODctLjI2LTEuOTg0LS4yNi01LjYzMy4wMDMtNy40NDcgMS4zMDgtOS4wNjggNy4wMTQtMTYuODQ2IDE1LjIwOS0yMC43MyAzLjgxMS0xLjgwNiA3LjMtMi41NyAxMS43My0yLjU3IDcuMTY2IDAgMTMuNTI3IDIuNTY3IDE4LjY4MSA3LjU0IDIuNDgzIDIuMzk2IDQuMTQ4IDQuNjY4IDUuNTc0IDcuNjA3IDEuOTI5IDMuOTc1IDIuNzEgNy40MzMgMi43MSAxMS45OTUgMCA2LjAwNi0xLjczNSAxMS4yNDQtNS4zMzcgMTYuMTE3LTEuMDcgMS40NDgtMy4xNjIgMy42NDctNC41NSA0Ljc4NS0zLjgwNiAzLjEyLTguNjU4IDUuMjMyLTEzLjQ3MyA1Ljg2My0xLjY2My4yMTgtNS41OTMuMjQ1LTcuMTIuMDV6bTEwLjA0MS00Ljg2NWMyLjg5OC0uOTE0IDUuMjYtMi4xNDIgNy41NC0zLjkyIDEuMjEzLS45NDYgMy4zMDktMy4wNjIgNC4xODgtNC4yMjcgMi4zODMtMy4xNjIgNC4wMDQtNy4xMjIgNC40ODItMTAuOTQ2LjIzLTEuODQyLjA5Ni01LjczOC0uMjU1LTcuNDMtLjkzLTQuNDgtMi45MzItOC4yNjUtNi4wODYtMTEuNTAzLTEuOTY2LTIuMDItMy43NTctMy4zNS02LjA2LTQuNTA1LTMuNDk1LTEuNzUyLTYuNDktMi40Ni0xMC40MjQtMi40NjQtNC4xNjQtLjAwNC03LjgxNS45NS0xMS40MjkgMi45ODctMy4yOSAxLjg1NS02LjY5IDUuMjYtOC41NTMgOC41NjMtMS4zNzIgMi40MzMtMi4zNzYgNS4zMi0yLjc2NyA3Ljk2LS4yNTcgMS43My0uMjYyIDUuMTY0LS4wMSA2LjgyLjUwNCAzLjMxNiAxLjc2IDYuNTkyIDMuNTg0IDkuMzQuOTk1IDEuNS45NjQgMS40ODQgMS44NDIuOTgxIDEuNTctLjg5OCAxLjk4LTEuMzMzIDIuODM2LTMuMDEgMS0xLjk2IDIuMDctMy42NzMgMy4wMzctNC44NjMgMS4xMTYtMS4zNzMgMS4yNy0xLjYxOCAxLjgzLTIuOTE1LjI4LS42NTIuNzg2LTEuNjEgMS4xMjItMi4xM2wuNjExLS45NDItLjc5LS43NzdjLTEuMDUtMS4wMzItMS45MjMtMi4yMDEtMi4wODctMi43OTYtLjE2OC0uNjA4LjAzLS45NDcuODE4LTEuNDAyLjc5OC0uNDYxIDEuMzY4LS41OTMgMy41LS44MTIgMS4wMzctLjEwNyAyLjE2My0uMzAyIDIuNTE4LS40MzcuMzUzLS4xMzQgMS40MDgtLjcwOCAyLjM0NC0xLjI3NiAyLjcwMy0xLjYzOSAyLjkzMi0xLjcyMyA0LjU1Mi0xLjY4OCAxLjM2OS4wMyAxLjM3MS4wMjkgMi4xODMtLjQ2MiAxLjctMS4wMjggNC4xNDMtMi44ODMgNy4zNTctNS41ODcuNjE2LS41MTkgMS4yMS0uOTI2IDEuMzItLjkwNS40NTQuMDg4IDEuMjg5IDIuMTM3IDEuNDE2IDMuNDc2LjA3Ny44MTItLjA4IDEuNjE1LS41NjIgMi44NzMtLjEzMi4zNDMtLjE5Mi42Ny0uMTM1LjcyNy4xMzguMTM3LjYxLS40NTMuNjEtLjc2MyAwLS4zOTQuMjYyLS40MzkuNjE3LS4xMDYuMjU4LjI0Mi40ODEuMzEyIDEgLjMxMi41NjcgMCAuNzA4LjA1Mi45My4zNDguMzc1LjUuNDYzIDEuODY2LjE3NSAyLjczMi0uMjguODQyLTEuMTI1IDEuODEzLTEuODkyIDIuMTczLS42ODYuMzIzLTIuMDc1IDEuNjgtMi43MjYgMi42NjJhMzEuNjQgMzEuNjQgMCAwMC0xLjAzNyAxLjc0MmMtLjMyMS41ODItLjg2IDEuNDYxLTEuMTk4IDEuOTU0LS42NjQuOTctMS4yMzMgMi4zMjMtMS43ODIgNC4yMzgtLjMyMyAxLjEyNi0uMzUgMS40MTktLjM2MyAzLjkyOC0uMDE2IDMuMDMyLS4xNzMgMy43NzYtLjk5MyA0LjcxLS45MzEgMS4wNi0xLjg2MiAzLjM5MS0xLjk0IDQuODYtLjA1LjkyOC0uMTkyIDEuODMyLS4zOTUgMi41MDItLjA5LjI5NS4wNzcuMjkxIDEuMDcyLS4wMjJ6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTc3LjA2MiAxODEuNjU0bDEuMjIyLTEuNTY1IDEuOTY2LS4yNzUtMS4yMjIgMS41NjR6IiBmaWxsPSIjMDBhY2ZmIi8+PC9nPjwvc3ZnPg==");
+-  background-size: contain;
+-  background-repeat: no-repeat;
+-  background-position: center;
++  background: black;
+ }
+ 
+ #right {
+@@ -36,7 +40,7 @@
+ }
+ 
+ #wordmark {
+-  color: #00acff;
++  color: #006000;
+   font-size: 30px;
+   font-weight: bold;
+   line-height: 1em;
+--- a/themes/browser/base/content/aboutDialog.xhtml
++++ b/themes/browser/base/content/aboutDialog.xhtml
+@@ -34,19 +34,20 @@
+   <script src="chrome://browser/content/aboutDialog.js"/>
+ 
+   <div id="grid">
+-    <div id="left" />
++    <div id="left">Y</div>
+     <div id="right">
+-      <label id="wordmark">LibreWolf</label>
++      <label id="wordmark">Yikwid Browser</label>
+       <div id="version">
+         <label id="versionNumber" />
+       </div >
+       <label id="distribution" />
+       <label id="distributionId" />
+       <label id="aboutText">
+-        LibreWolf is an independent fork of Firefox, with the primary
+-        goals of privacy, security and user freedom.
++        Yikwid Browser is a fork of LibreWolf and Firefox, with the goal
++        of getting out of the way of the user. If you want a seatbelt,
++        go elsewhere.
+       </label>
+-      <label id="websiteLink" is="text-link" href="https://librewolf.net/">https://librewolf.net/</label>
++      <label id="websiteLink" is="text-link" href="https://yikwid.net/">https://yikwid.net/</label>
+     </div>
+   </div>
+ 
