@@ -1,5 +1,5 @@
 .*.sw[po]
-upstream-source/
-yikwid-source/
+upstream-patched/
+yikwid-editing/
 yikwid-patched/
 TODO.*

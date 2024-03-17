@@ -5,9 +5,9 @@ set -e
 
 LW_GIT_REPO=https://codeberg.org/librewolf/source.git
 LW_CLONE_TAG=121.0.1-1
-LW_CLONE_DIR=upstream-source
+LW_CLONE_DIR=upstream-patched
 YW_PATCH_DIR=yikwid-patched
-YW_BUILD_DIR=yikwid-source
+YW_BUILD_DIR=yikwid-editing
 YW_SETTINGS_REPO=https://github.com/yikwid/yikwid-browser-settings.git
 YW_SETTIONS_TAG=yikwid-118.0.1-1
 

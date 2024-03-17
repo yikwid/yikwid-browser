@@ -9,11 +9,13 @@
      else:
          dir = _dir
      print("cd {}".format(dir))
-@@ -85,6 +85,7 @@
+@@ -85,6 +85,9 @@
  
  
  def librewolf_patches():
++    exec("rm themes/browser/branding/librewolf/file_librewolf.svg")
 +    exec("mv themes/browser/branding/librewolf themes/browser/branding/yikwid")
++    exec("rsync -rv ../themes/browser/branding/yikwid/ themes/browser/branding/yikwid/")
  
      enter_srcdir()
      
