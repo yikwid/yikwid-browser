@@ -1,0 +1,100 @@
+--- a/patches/pref-pane/librewolf.js
++++ b/patches/pref-pane/librewolf.js
+@@ -56,7 +56,7 @@
+ 
+   // called when the document is first parsed
+   init() {
+-    this._pane = document.getElementById("paneLibrewolf");
++    this._pane = document.getElementById("paneYikwid");
+ 
+     // Set all event listeners on checkboxes
+     setBoolSyncListeners(
+--- a/patches/pref-pane/librewolf.inc.xhtml
++++ b/patches/pref-pane/librewolf.inc.xhtml
+@@ -4,13 +4,13 @@
+ 
+ <script src="chrome://browser/content/preferences/librewolf.js"/>
+ 
+-<html:template id="template-paneLibrewolf">
++<html:template id="template-paneYikwid">
+ 
+-<hbox class="subcategory" hidden="true" data-category="paneLibrewolf">
++<hbox class="subcategory" hidden="true" data-category="paneYikwid">
+   <html:h1 data-l10n-id="librewolf-header"/>
+ </hbox>
+ 
+-<groupbox hidden="true" data-category="paneLibrewolf">
++<groupbox hidden="true" data-category="paneYikwid">
+   <html:h2 data-l10n-id="librewolf-general-heading"/>
+ 
+   <!-- TEMPLATE FOR A NEW PREFERENCE
+@@ -83,7 +83,7 @@
+ 
+ </groupbox>
+ 
+-<groupbox hidden="true" data-category="paneLibrewolf">
++<groupbox hidden="true" data-category="paneYikwid">
+   <html:h2 data-l10n-id="librewolf-network-heading" />
+ 
+   <hbox>
+@@ -101,7 +101,7 @@
+ 
+ </groupbox>
+ 
+-<groupbox hidden="true" data-category="paneLibrewolf">
++<groupbox hidden="true" data-category="paneYikwid">
+   <html:h2 data-l10n-id="librewolf-privacy-heading" />
+ 
+   <hbox>
+@@ -119,7 +119,7 @@
+ 
+ </groupbox>
+ 
+-<groupbox hidden="true" data-category="paneLibrewolf">
++<groupbox hidden="true" data-category="paneYikwid">
+   <html:h2 data-l10n-id="librewolf-broken-heading" />
+ 
+   <hbox>
+@@ -180,7 +180,7 @@
+ 
+ </groupbox>
+ 
+-<groupbox hidden="true" data-category="paneLibrewolf">
++<groupbox hidden="true" data-category="paneYikwid">
+   <html:h2 data-l10n-id="librewolf-security-heading" />
+ 
+   <hbox>
+@@ -232,11 +232,11 @@
+ 
+ </groupbox>
+ 
+-<hbox class="subcategory" hidden="true" data-category="paneLibrewolf">
++<hbox class="subcategory" hidden="true" data-category="paneYikwid">
+     <html:h1 data-l10n-id="librewolf-footer"/>
+ </hbox>
+ 
+-<groupbox data-category="paneLibrewolf" hidden="true">
++<groupbox data-category="paneYikwid" hidden="true">
+   <vbox align="start">
+     <hbox>
+       <button id="librewolf-config-link" is="highlightable-button" flex="1">
+--- a/patches/pref-pane/pref-pane-small.patch
++++ b/patches/pref-pane/pref-pane-small.patch
+@@ -26,7 +26,7 @@
+    register_module("paneHome", gHomePane);
+    register_module("paneSearch", gSearchPane);
+    register_module("panePrivacy", gPrivacyPane);
+-+  register_module("paneLibrewolf", gLibrewolfPane);
+++  register_module("paneYikwid", gLibrewolfPane);
+    register_module("paneContainers", gContainersPane);
+    if (Services.prefs.getBoolPref("browser.preferences.experimental")) {
+      // Set hidden based on previous load's hidden value.
+@@ -48,7 +48,7 @@
+  
+ +        <richlistitem id="category-librewolf"
+ +                      class="category"
+-+                      value="paneLibrewolf"
+++                      value="paneYikwid"
+ +                      helpTopic="prefs-librewolf"
+ +                      data-l10n-id="category-librewolf"
+ +                      data-l10n-attrs="tooltiptext"
