@@ -23,9 +23,9 @@
  	@echo ""
 -	@echo "  all         - Make LibreWolf source archive ${version}-${release}."
 +	@echo "  all         - Make Yikwid Browser source archive ${version}-${release}."
+ 	@echo ""
  	@echo "  check       - Check if there is a new version of Firefox."
  	@echo "  update      - Update the git submodules."
- 	@echo ""
 @@ -34,10 +34,10 @@ help :
  	@echo ""
  	@echo "  fetch       - fetch Firefox source archive."
