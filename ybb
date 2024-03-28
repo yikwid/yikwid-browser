@@ -4,7 +4,7 @@
 set -e
 
 LW_GIT_REPO=https://codeberg.org/librewolf/source.git
-LW_CLONE_TAG=123.0.1-1
+LW_CLONE_TAG=124.0.1-1
 LW_CLONE_DIR=upstream-patched
 YW_PATCH_DIR=yikwid-patched
 YW_BUILD_DIR=yikwid-editing
