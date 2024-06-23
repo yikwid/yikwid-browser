@@ -220,7 +220,13 @@ do_reset() {
 }
 
 do_fullreset() {
-    :
+    debug "Starting do_fullreset"
+    if [[ $1 != "force" ]]; then
+        CONFIRM=$(user_prompt "Reset all three of $LW_CLONE_DIR/ $YW_PATCH_DIR/ $YW_BUILD_DIR/ dirs, discarding changes? (y/N)")
+        [[ $CONFIRM == 'y' ]] || die "Reset aborted."
+    fi
+    rm -rf $LW_CLONE_DIR/ $YW_PATCH_DIR/ $YW_BUILD_DIR/
+    do_init
 }
 
 do_pull() {
