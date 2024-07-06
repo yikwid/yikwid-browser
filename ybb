@@ -31,6 +31,7 @@ show_help() {
     echo "  pull        - Update upstream code repository (with update)"
     echo "  apply       - Apply Yikwid patches to upstream code"
     echo "  diff        - See diff from original source and modified source"
+    echo "  dist-deb    - Build a .deb file"
     echo "OPTIONS:"
     echo "  -d|--debug  - Enable debug info for '${THIS_SCRIPT_NAME}'"
     echo "MAKE PASSTHRU ACTIONS:"
@@ -105,8 +106,8 @@ parse_args() {
             set_action passthru
             declare -g PASSTHRU="$1"
             shift;;
-        init|reset|pull|apply|diff)
-            set_action "$1"
+        init|reset|fullreset|pull|apply|diff|dist-deb)
+            set_action "${1//-/}"
             shift;;
         -d|--debug)
             OPTIONS[DEBUG]=1
@@ -235,6 +236,66 @@ do_pull() {
 
 do_apply() {
     :
+}
+
+do_distdeb() {
+    debug "Starting do_distdeb"
+    DEB_TAR="${YW_BUILD_DIR}/yikwid-${LW_CLONE_TAG}.en-US.linux-x86_64.tar.bz2"
+    DEB_TAR_BASENAME=$( basename "$DEB_TAR" )
+    if [[ ! -f $DEB_TAR ]]; then
+        die "No packaged tar found. Run 'make package' to create ${DEB_TAR}"
+    fi
+
+    NAME_VERS="${DEB_TAR_BASENAME/.en*}"
+    VERSION="${NAME_VERS#*-}"
+    FXOS=linux64
+    FXARCH=x86_64
+    DEBARCH=amd64
+
+    echo
+    echo "Building yikwid deb."
+    echo "VERSION=$VERSION"
+    echo "FXOS   =$FXOS"
+    echo "FXARCH =$FXARCH"
+    echo "DEBARCH=$DEBARCH"
+    echo
+
+    TMPDIR=$( mktemp -d )
+    BUILD_DIR="yikwid_${VERSION}_${DEBARCH}"
+    mkdir -p "${TMPDIR}/${BUILD_DIR}/usr/share/applications" "${TMPDIR}/${BUILD_DIR}/opt"
+    install -m 644  "${THIS_SCRIPT_DIR}/assets/build/yikwid.desktop" \
+                    "${TMPDIR}/${BUILD_DIR}/usr/share/applications/yikwid.desktop"
+    cp "$DEB_TAR" "$TMPDIR"
+
+    pushd "$TMPDIR" 2>&1 > /dev/null
+
+    tar -xvf "$DEB_TAR_BASENAME"
+    rm "$DEB_TAR_BASENAME"
+    mv yikwid "${BUILD_DIR}/opt/yikwid"
+
+    echo "Preparing to build Yikwid installation package ..."
+    mkdir "${BUILD_DIR}/DEBIAN"
+    cp "${THIS_SCRIPT_DIR}/assets/build/DEBIAN/"* "${BUILD_DIR}/DEBIAN/"
+    chmod -R 755 "${BUILD_DIR}/DEBIAN/"
+    chmod -x "${BUILD_DIR}/DEBIAN/control"
+
+    echo "Architecture: ${DEBARCH}"     >> "${BUILD_DIR}/DEBIAN/control"
+    echo "Version: 1:${VERSION}"        >> "${BUILD_DIR}/DEBIAN/control"
+    echo -n "Installed-Size: "          >> "${BUILD_DIR}/DEBIAN/control"
+    du -s --exclude DEBIAN "$BUILD_DIR" | cut -f 1 \
+                                        >> "${BUILD_DIR}/DEBIAN/control"
+
+    cd "$BUILD_DIR"
+    find . -type f | sed -s 's,^\./,,' | xargs md5sum > DEBIAN/md5sums
+    cd ..
+
+    dpkg-deb --root-owner-group --build "${BUILD_DIR}"
+
+    DEB_FILE=$(find . -name '*.deb')
+    mv "$DEB_FILE" "$THIS_SCRIPT_DIR"
+
+    popd 2>&1 > /dev/null
+    rm -rf "$TMPDIR"
 }
 
 do_diff() {

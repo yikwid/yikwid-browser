@@ -1,0 +1,8 @@
+Package: yikwid
+Name: Yikwid Browser
+Maintainer: Yikwid LLC
+Priority: standard
+Section: web
+Homepage: http://yikwid.net/
+Description: Yikwid Browser
+ The Yikwid Browser is a no-nonsense fork of LibreWolf (and by extension a fork of Firefox) aimed at web users who do not want frills, warnings, handrails, or common annoyances in their web experience. 

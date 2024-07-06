@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ln -fs /opt/yikwid/yikwid /usr/bin/yikwid
+update-desktop-database -q

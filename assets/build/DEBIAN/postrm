@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -L /usr/bin/yikwid ]]; then
+    rm /usr/bin/yikwid
+fi
