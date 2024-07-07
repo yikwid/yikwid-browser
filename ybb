@@ -300,7 +300,8 @@ do_distdeb() {
 
 do_diff() {
     go_dir "$THIS_SCRIPT_DIR"
-    diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
+    diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/" | less &
+    wait
     go_back_dir
 }
 
