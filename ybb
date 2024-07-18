@@ -26,11 +26,13 @@ show_help() {
     echo ""
     echo "ACTIONS:"
     echo "  init        - Initialize Yikwid Browser build environment"
+    echo "  reset-build - Remove the build from $YW_BUILD_DIR/"
     echo "  reset       - Reset the $YW_PATCH_DIR/ and $YW_BUILD_DIR/ (no update)"
-    echo "  fullreset   - Reset the $LW_CLONE_DIR/ upstream repository (no update)"
+    echo "  reset-full  - Reset the $LW_CLONE_DIR/ upstream repository (no update)"
     echo "  pull        - Update upstream code repository (with update)"
     echo "  apply       - Apply Yikwid patches to upstream code"
-    echo "  diff        - See diff from original source and modified source"
+    echo "  diff        - View diff from original source and modified source"
+    echo "  diff-dump   - Print diff from original source and modified source"
     echo "  dist-deb    - Build a .deb file"
     echo "OPTIONS:"
     echo "  -d|--debug  - Enable debug info for '${THIS_SCRIPT_NAME}'"
@@ -106,7 +108,7 @@ parse_args() {
             set_action passthru
             declare -g PASSTHRU="$1"
             shift;;
-        init|reset|fullreset|pull|apply|diff|dist-deb)
+        init|reset-build|reset|reset-full|pull|apply|diff|diff-dump|dist-deb)
             set_action "${1//-/}"
             shift;;
         -d|--debug)
@@ -195,6 +197,20 @@ do_init() {
     fi
 }
 
+do_resetbuild() {
+    debug "Starting do_resetbuild"
+    YW_CODE_DIR=$(find $YW_BUILD_DIR -mindepth 1 -maxdepth 1 -type d -name 'yikwid-*')
+    if [[ -d "$YW_CODE_DIR/obj-x86_64-pc-linux-gnu/" ]]; then
+        if [[ $1 != "force" ]]; then
+            CONFIRM=$(user_prompt "Remove obj-x86_64-pc-linux-gnu/ and __pycache__/ dirs within $YW_CODE_DIR/? (y/N)")
+            [[ $CONFIRM == 'y' ]] || die "Reset aborted."
+        fi
+        find "$YW_CODE_DIR" -type d \( -name obj-x86_64-pc-linux-gnu -o -name __pycache__ \) -prune -exec rm -r {} \+
+    else
+        die "No build found at: $YW_CODE_DIR/obj-x86_64-pc-linux-gnu/"
+    fi
+}
+
 do_reset() {
     debug "Starting do_reset"
     if upstream_cloned; then
@@ -220,8 +236,8 @@ do_reset() {
     fi
 }
 
-do_fullreset() {
-    debug "Starting do_fullreset"
+do_resetfull() {
+    debug "Starting do_resetfull"
     if [[ $1 != "force" ]]; then
         CONFIRM=$(user_prompt "Reset all three of $LW_CLONE_DIR/ $YW_PATCH_DIR/ $YW_BUILD_DIR/ dirs, discarding changes? (y/N)")
         [[ $CONFIRM == 'y' ]] || die "Reset aborted."
@@ -300,7 +316,14 @@ do_distdeb() {
 
 do_diff() {
     go_dir "$THIS_SCRIPT_DIR"
-    diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/" | less &
+    diff --color=always -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/" | less -R &
+    wait
+    go_back_dir
+}
+
+do_diffdump() {
+    go_dir "$THIS_SCRIPT_DIR"
+    diff -urb --exclude-from=.diff_ignore "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/" &
     wait
     go_back_dir
 }

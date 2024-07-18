@@ -2,3 +2,5 @@ __pycache__
 .git
 obj-x86_64-pc-linux-gnu
 *.bz2
+.*.sw[po]
+old-configure
