@@ -1,0 +1,302 @@
+--- a/browser/base/content/browser.js
++++ b/browser/base/content/browser.js
+@@ -740,7 +740,8 @@
+   }
+ 
+   let nonQuery = url.prePath + url.filePath;
+-  return gInitialPages.includes(nonQuery) || nonQuery == BROWSER_NEW_TAB_URL;
++  // Yikwid show url for custom newtab page
++  return gInitialPages.includes(nonQuery); // || nonQuery == BROWSER_NEW_TAB_URL;
+ }
+ 
+ function browserWindows() {
+@@ -3536,6 +3537,7 @@
+    */
+   onLocationChange(aWebProgress, aRequest, aLocationURI, aFlags, aIsSimulated) {
+     var location = aLocationURI ? aLocationURI.spec : "";
++    console.log(`onLocationChange: ${location}`);
+ 
+     UpdateBackForwardCommands(gBrowser.webNavigation);
+ 
+--- a/browser/base/content/utilityOverlay.js
++++ b/browser/base/content/utilityOverlay.js
+@@ -78,7 +78,8 @@
+   return (
+     aURL == "about:blank" ||
+     aURL == "about:home" ||
+-    aURL == BROWSER_NEW_TAB_URL ||
++    // Yikwid custom URL newtab is not blank
++    aURL == "about:newtab" ||
+     aURL == "chrome://browser/content/blanktab.html"
+   );
+ }
+--- a/browser/components/preferences/home.inc.xhtml
++++ b/browser/components/preferences/home.inc.xhtml
+@@ -82,8 +82,43 @@
+       <menulist id="newTabMode" flex="1" data-preference-related="browser.newtabpage.enabled">
+         <menupopup>
+           <menuitem value="1" data-l10n-id="home-mode-choice-blank" />
++          <menuitem value="0" data-l10n-id="newtab-mode-choice-custom" />
+         </menupopup>
+       </menulist>
++
++      <vbox id="customNewTabSettings" hidden="true">
++        <box role="combobox">
++          <html:input id="newTabPageUrl"
++                      type="text"
++                      is="autocomplete-input"
++                      class="uri-element"
++                      style="flex: 1;"
++                      data-preference-related="browser.newtabpage.url"
++                      data-l10n-id="home-homepage-custom-url"
++                      autocompletepopup="newTabUrlAutocomplete" />
++          <popupset>
++            <panel id="newTabUrlAutocomplete"
++                   is="autocomplete-richlistbox-popup"
++                   type="autocomplete-richlistbox"
++                   noautofocus="true"/>
++          </popupset>
++        </box>
++        <!-- TODO Yikwid newtab button helper
++        <hbox class="newtab-buttons">
++          <button id="useCurrentBtnNewTab"
++                  is="highlightable-button"
++                  class="newtab-button"
++                  disabled="true"
++                  preference="pref.browser.newtab.disable_button.current_page"/>
++          <button id="useBookmarkBtnNewTab"
++                  is="highlightable-button"
++                  class="newtab-button"
++                  data-l10n-id="choose-bookmark"
++                  preference="pref.browser.newtab.disable_button.bookmark_page"
++                  search-l10n-ids="select-bookmark-window2.title, select-bookmark-desc"/>
++        </hbox>
++        -->
++      </vbox>
+     </vbox>
+   </hbox>
+ </groupbox>
+--- a/browser/components/preferences/home.js
++++ b/browser/components/preferences/home.js
+@@ -26,6 +26,7 @@
+   { id: "pref.browser.homepage.disable_button.bookmark_page", type: "bool" },
+   { id: "pref.browser.homepage.disable_button.restore_default", type: "bool" },
+   { id: "browser.newtabpage.enabled", type: "bool" },
++  { id: "browser.newtabpage.url", type: "wstring" },
+ ]);
+ 
+ const HOMEPAGE_OVERRIDE_KEY = "homepage_override";
+@@ -40,6 +41,9 @@
+   HOME_MODE_CUSTOM: "2",
+   HOMEPAGE_PREF: "browser.startup.homepage",
+   NEWTAB_ENABLED_PREF: "browser.newtabpage.enabled",
++  NEWTAB_MODE_CUSTOM: "0",
++  NEWTAB_MODE_BLANK: "1",
++  NEWTAB_CUSTOM_PREF: "browser.newtabpage.url",
+   ACTIVITY_STREAM_PREF_BRANCH: "browser.newtabpage.activity-stream.",
+ 
+   get homePanePrefs() {
+@@ -72,7 +76,16 @@
+         this.NEWTAB_ENABLED_PREF,
+         true
+       );
+-      let newValue = menulist.value !== this.HOME_MODE_BLANK;
++      let newValue = menulist.value !== this.NEWTAB_MODE_BLANK;
++      // Yikwid NEWTAB_CUSTOM_PREF preference
++      let customurl = document.getElementById("newTabPageUrl");
++      let newtabCustomPref = Services.prefs.getStringPref(
++        this.NEWTAB_CUSTOM_PREF,
++        ""
++      );
++      if (newtabCustomPref !== customurl.value) {
++        Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, customurl.value);
++      }
+       // Only set this if the pref has changed, otherwise the pref change will trigger other listeners to repeat.
+       if (newtabEnabledPref !== newValue) {
+         Services.prefs.setBoolPref(this.NEWTAB_ENABLED_PREF, newValue);
+@@ -94,6 +107,9 @@
+         );
+       }
+     }
++
++    // Yikwid toggle custom newtab url input
++    this._renderCustomNewTabSettings();
+   },
+ 
+   async syncFromNewTabPref() {
+@@ -110,8 +126,8 @@
+         true
+       );
+       let newValue = newtabEnabledPref
+-        ? this.HOME_MODE_FIREFOX_HOME
+-        : this.HOME_MODE_BLANK;
++        ? this.NEWTAB_MODE_CUSTOM
++        : this.NEWTAB_MODE_BLANK;
+       if (newValue !== menulist.value) {
+         menulist.value = newValue;
+       }
+@@ -202,6 +218,8 @@
+         }
+       }
+     }
++
++    this._renderCustomNewTabSettings();
+   },
+ 
+   /**
+@@ -281,6 +299,33 @@
+   },
+ 
+   /**
++   * _renderCustomNewTabSettings: Hides or shows the UI for setting a custom
++   * newtab URL
++   * @param {obj} options
++   * @param {bool} options.shouldShow Should the custom UI be shown?
++   */
++  _renderCustomNewTabSettings() {
++    const customSettingsContainerEl = document.getElementById("customNewTabSettings");
++    const customUrlEl = document.getElementById("newTabPageUrl");
++    const newtabPage = Preferences.get(this.NEWTAB_CUSTOM_PREF);
++    const newtabEnabled = Preferences.get(this.NEWTAB_ENABLED_PREF).value ? "0" : "1";
++
++    let shouldShow = false;
++    switch (newtabEnabled) {
++      case this.NEWTAB_MODE_CUSTOM:
++        customUrlEl.value = newtabPage.value;
++        shouldShow = true;
++        break;
++      case this.NEWTAB_MODE_BLANK:
++        Services.prefs.clearUserPref(newtabPage.id);
++        customUrlEl.value = "";
++        shouldShow = false;
++        break;
++    }
++    customSettingsContainerEl.hidden = !shouldShow;
++  },
++
++  /**
+    * _renderCustomSettings: Hides or shows the UI for setting a custom
+    * homepage URL
+    * @param {obj} options
+@@ -606,6 +651,11 @@
+     HomePage.set(value).catch(console.error);
+   },
+ 
++  onCustomNewTabPageChange(event) {
++    const value = event.target.value || "";
++    Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, value);
++  },
++
+   /**
+    * Check all Home Tab preferences for user set values.
+    */
+@@ -671,6 +721,12 @@
+     document
+       .getElementById("restoreDefaultHomePageBtn")
+       .addEventListener("command", this.restoreDefaultPrefsForHome.bind(this));
++    //TODO document
++    //  .getElementById("useCurrentBtnNewTab")
++    //  .addEventListener("command", this.setNewTabToCurrent.bind(this));
++    //TODO document
++    //  .getElementById("useBookmarkBtnNewTab")
++    //  .addEventListener("command", this.setNewTabToBookmark.bind(this));
+ 
+     // Setup the add-on options for the new tab section before registering the
+     // listener.
+@@ -679,6 +735,9 @@
+       .getElementById("newTabMode")
+       .addEventListener("command", this.syncToNewTabPref.bind(this));
+     document
++      .getElementById("newTabPageUrl")
++      .addEventListener("change", this.onCustomNewTabPageChange.bind(this));
++    document
+       .getElementById("homeMode")
+       .addEventListener("command", this.onMenuChange.bind(this));
+ 
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -683,6 +683,9 @@
+ home-homepage-custom-url =
+     .placeholder = Paste a URL…
+ 
++newtab-mode-choice-custom =
++    .label = Custom URL
++
+ # This string has a special case for '1' and [other] (default). If necessary for
+ # your language, you can add {$tabCount} to your translations and use the
+ # standard CLDR forms, or only use the form for [other] if both strings should
+--- a/browser/modules/AboutNewTab.sys.mjs
++++ b/browser/modules/AboutNewTab.sys.mjs
+@@ -12,10 +12,13 @@
+   ObjectUtils: "resource://gre/modules/ObjectUtils.sys.mjs",
+ });
+ 
+-const ABOUT_URL = "about:newtab";
++// Yikwid: newtab page is just blank page now
++const ABOUT_URL = "about:blank";
+ const PREF_ACTIVITY_STREAM_DEBUG = "browser.newtabpage.activity-stream.debug";
+ const TOPIC_APP_QUIT = "quit-application-granted";
+ const BROWSER_READY_NOTIFICATION = "sessionstore-windows-restored";
++const NEWTAB_ENABLED_PREF = "browser.newtabpage.enabled";
++const NEWTAB_CUSTOM_PREF = "browser.newtabpage.url";
+ 
+ export const AboutNewTab = {
+   QueryInterface: ChromeUtils.generateQI([
+@@ -101,20 +104,33 @@
+   },
+ 
+   get newTabURL() {
++    let newtabEnabledPref = Services.prefs.getBoolPref(
++      NEWTAB_ENABLED_PREF,
++      true
++    );
++    let newtabPage = Services.prefs.getStringPref(
++      NEWTAB_CUSTOM_PREF,
++      ""
++    );
++    if (this.newTabURLOverridden) {
++        return this._newTabURL;
++    }
++    // Yikwid NEWTAB_ENABLED_PREF value of "0" (false) is custompage
++    if (newtabEnabledPref && newtabPage != "") {
++        return newtabPage;
++    }
+     return this._newTabURL;
+   },
+ 
+   set newTabURL(aNewTabURL) {
+     let newTabURL = aNewTabURL.trim();
+-    if (newTabURL === ABOUT_URL) {
++    if (newTabURL === ABOUT_URL || newTabURL === "") {
+       // avoid infinite redirects in case one sets the URL to about:newtab
+       this.resetNewTabURL();
+       return;
+-    } else if (newTabURL === "") {
+-      newTabURL = "about:blank";
+     }
+ 
+-    this.toggleActivityStream(false);
++    //this.toggleActivityStream(false);
+     this._newTabURL = newTabURL;
+     this._newTabURLOverridden = true;
+     this.notifyChange();
+@@ -131,7 +147,7 @@
+   resetNewTabURL() {
+     this._newTabURLOverridden = false;
+     this._newTabURL = ABOUT_URL;
+-    this.toggleActivityStream(true, true);
++    //this.toggleActivityStream(true, true);
+     this.notifyChange();
+   },
+ 
+--- a/browser/modules/NewTabPagePreloading.sys.mjs
++++ b/browser/modules/NewTabPagePreloading.sys.mjs
+@@ -22,7 +22,7 @@
+   // Maximum number of instances of a given page we'll preload at any time.
+   // Because we preload about:newtab for normal windows, and about:privatebrowsing
+   // for private ones, we could have 3 of each.
+-  MAX_COUNT: 3,
++  MAX_COUNT: 0,
+ 
+   // How many preloaded tabs we have, across all windows, for the private and non-private
+   // case:
