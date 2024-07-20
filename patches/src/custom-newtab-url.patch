@@ -1,4 +1,4 @@
---- a/browser/base/content/browser.js
+--- b/browser/base/content/browser.js
 +++ b/browser/base/content/browser.js
 @@ -740,7 +740,8 @@
    }
@@ -10,14 +10,6 @@
  }
  
  function browserWindows() {
-@@ -3536,6 +3537,7 @@
-    */
-   onLocationChange(aWebProgress, aRequest, aLocationURI, aFlags, aIsSimulated) {
-     var location = aLocationURI ? aLocationURI.spec : "";
-+    console.log(`onLocationChange: ${location}`);
- 
-     UpdateBackForwardCommands(gBrowser.webNavigation);
- 
 --- a/browser/base/content/utilityOverlay.js
 +++ b/browser/base/content/utilityOverlay.js
 @@ -78,7 +78,8 @@
@@ -30,13 +22,15 @@
      aURL == "chrome://browser/content/blanktab.html"
    );
  }
---- a/browser/components/preferences/home.inc.xhtml
+--- b/browser/components/preferences/home.inc.xhtml
 +++ b/browser/components/preferences/home.inc.xhtml
-@@ -82,8 +82,43 @@
+@@ -81,9 +81,44 @@
+         Preferences so we need to handle setting the pref manually.-->
        <menulist id="newTabMode" flex="1" data-preference-related="browser.newtabpage.enabled">
          <menupopup>
-           <menuitem value="1" data-l10n-id="home-mode-choice-blank" />
-+          <menuitem value="0" data-l10n-id="newtab-mode-choice-custom" />
+-          <menuitem value="1" data-l10n-id="home-mode-choice-blank" />
++          <menuitem value="0" data-l10n-id="home-mode-choice-blank" />
++          <menuitem value="1" data-l10n-id="newtab-mode-choice-custom" />
          </menupopup>
        </menulist>
 +
@@ -76,7 +70,7 @@
      </vbox>
    </hbox>
  </groupbox>
---- a/browser/components/preferences/home.js
+--- b/browser/components/preferences/home.js
 +++ b/browser/components/preferences/home.js
 @@ -26,6 +26,7 @@
    { id: "pref.browser.homepage.disable_button.bookmark_page", type: "bool" },
@@ -90,19 +84,21 @@
    HOME_MODE_CUSTOM: "2",
    HOMEPAGE_PREF: "browser.startup.homepage",
    NEWTAB_ENABLED_PREF: "browser.newtabpage.enabled",
-+  NEWTAB_MODE_CUSTOM: "0",
-+  NEWTAB_MODE_BLANK: "1",
++  NEWTAB_MODE_BLANK: "0",
++  NEWTAB_MODE_CUSTOM: "1",
 +  NEWTAB_CUSTOM_PREF: "browser.newtabpage.url",
    ACTIVITY_STREAM_PREF_BRANCH: "browser.newtabpage.activity-stream.",
  
    get homePanePrefs() {
-@@ -72,7 +76,16 @@
+@@ -70,12 +74,23 @@
+     if (["0", "1"].includes(menulist.value)) {
+       let newtabEnabledPref = Services.prefs.getBoolPref(
          this.NEWTAB_ENABLED_PREF,
-         true
+-        true
++        false
        );
 -      let newValue = menulist.value !== this.HOME_MODE_BLANK;
-+      let newValue = menulist.value !== this.NEWTAB_MODE_BLANK;
-+      // Yikwid NEWTAB_CUSTOM_PREF preference
++      let newValue = menulist.value != this.NEWTAB_MODE_BLANK;
 +      let customurl = document.getElementById("newTabPageUrl");
 +      let newtabCustomPref = Services.prefs.getStringPref(
 +        this.NEWTAB_CUSTOM_PREF,
@@ -114,7 +110,13 @@
        // Only set this if the pref has changed, otherwise the pref change will trigger other listeners to repeat.
        if (newtabEnabledPref !== newValue) {
          Services.prefs.setBoolPref(this.NEWTAB_ENABLED_PREF, newValue);
-@@ -94,6 +107,9 @@
++        if (newValue == this.NEWTAB_MODE_BLANK) {
++          Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, "");
++        }
+       }
+       let selectedAddon = ExtensionSettingsStore.getSetting(
+         URL_OVERRIDES_TYPE,
+@@ -94,24 +109,34 @@
          );
        }
      }
@@ -124,8 +126,25 @@
    },
  
    async syncFromNewTabPref() {
-@@ -110,8 +126,8 @@
-         true
+     let menulist = document.getElementById("newTabMode");
++    let newtabCustomPref = Services.prefs.getStringPref(
++      this.NEWTAB_CUSTOM_PREF,
++      ""
++    );
++    let customurl = document.getElementById("newTabPageUrl");
++    customurl.value = newtabCustomPref;
+ 
+     // If the new tab url was changed to about:blank or about:newtab
+     if (
++      AboutNewTab.newTabURL === newtabCustomPref ||
+       AboutNewTab.newTabURL === "about:newtab" ||
+       AboutNewTab.newTabURL === "about:blank" ||
+       AboutNewTab.newTabURL === BLANK_HOMEPAGE_URL
+     ) {
+       let newtabEnabledPref = Services.prefs.getBoolPref(
+         this.NEWTAB_ENABLED_PREF,
+-        true
++        false
        );
        let newValue = newtabEnabledPref
 -        ? this.HOME_MODE_FIREFOX_HOME
@@ -135,7 +154,7 @@
        if (newValue !== menulist.value) {
          menulist.value = newValue;
        }
-@@ -202,6 +218,8 @@
+@@ -202,6 +227,8 @@
          }
        }
      }
@@ -144,7 +163,7 @@
    },
  
    /**
-@@ -281,6 +299,33 @@
+@@ -281,6 +308,30 @@
    },
  
    /**
@@ -155,19 +174,16 @@
 +   */
 +  _renderCustomNewTabSettings() {
 +    const customSettingsContainerEl = document.getElementById("customNewTabSettings");
-+    const customUrlEl = document.getElementById("newTabPageUrl");
-+    const newtabPage = Preferences.get(this.NEWTAB_CUSTOM_PREF);
-+    const newtabEnabled = Preferences.get(this.NEWTAB_ENABLED_PREF).value ? "0" : "1";
++    const newtabEnabled = Preferences.get(this.NEWTAB_ENABLED_PREF).value
++      ? this.NEWTAB_MODE_CUSTOM
++      : this.NEWTAB_MODE_BLANK;
 +
 +    let shouldShow = false;
 +    switch (newtabEnabled) {
 +      case this.NEWTAB_MODE_CUSTOM:
-+        customUrlEl.value = newtabPage.value;
 +        shouldShow = true;
 +        break;
 +      case this.NEWTAB_MODE_BLANK:
-+        Services.prefs.clearUserPref(newtabPage.id);
-+        customUrlEl.value = "";
 +        shouldShow = false;
 +        break;
 +    }
@@ -178,7 +194,7 @@
     * _renderCustomSettings: Hides or shows the UI for setting a custom
     * homepage URL
     * @param {obj} options
-@@ -606,6 +651,11 @@
+@@ -606,6 +657,11 @@
      HomePage.set(value).catch(console.error);
    },
  
@@ -190,7 +206,7 @@
    /**
     * Check all Home Tab preferences for user set values.
     */
-@@ -671,6 +721,12 @@
+@@ -671,6 +727,12 @@
      document
        .getElementById("restoreDefaultHomePageBtn")
        .addEventListener("command", this.restoreDefaultPrefsForHome.bind(this));
@@ -203,7 +219,7 @@
  
      // Setup the add-on options for the new tab section before registering the
      // listener.
-@@ -679,6 +735,9 @@
+@@ -679,6 +741,9 @@
        .getElementById("newTabMode")
        .addEventListener("command", this.syncToNewTabPref.bind(this));
      document
@@ -225,7 +241,7 @@
  # This string has a special case for '1' and [other] (default). If necessary for
  # your language, you can add {$tabCount} to your translations and use the
  # standard CLDR forms, or only use the form for [other] if both strings should
---- a/browser/modules/AboutNewTab.sys.mjs
+--- b/browser/modules/AboutNewTab.sys.mjs
 +++ b/browser/modules/AboutNewTab.sys.mjs
 @@ -12,10 +12,13 @@
    ObjectUtils: "resource://gre/modules/ObjectUtils.sys.mjs",
@@ -242,13 +258,13 @@
  
  export const AboutNewTab = {
    QueryInterface: ChromeUtils.generateQI([
-@@ -101,20 +104,33 @@
+@@ -101,20 +104,32 @@
    },
  
    get newTabURL() {
 +    let newtabEnabledPref = Services.prefs.getBoolPref(
 +      NEWTAB_ENABLED_PREF,
-+      true
++      false
 +    );
 +    let newtabPage = Services.prefs.getStringPref(
 +      NEWTAB_CUSTOM_PREF,
@@ -257,7 +273,6 @@
 +    if (this.newTabURLOverridden) {
 +        return this._newTabURL;
 +    }
-+    // Yikwid NEWTAB_ENABLED_PREF value of "0" (false) is custompage
 +    if (newtabEnabledPref && newtabPage != "") {
 +        return newtabPage;
 +    }
@@ -280,7 +295,7 @@
      this._newTabURL = newTabURL;
      this._newTabURLOverridden = true;
      this.notifyChange();
-@@ -131,7 +147,7 @@
+@@ -131,7 +146,7 @@
    resetNewTabURL() {
      this._newTabURLOverridden = false;
      this._newTabURL = ABOUT_URL;
@@ -289,8 +304,8 @@
      this.notifyChange();
    },
  
---- a/browser/modules/NewTabPagePreloading.sys.mjs
-+++ b/browser/modules/NewTabPagePreloading.sys.mjs
+--- a/browser/components/tabbrowser/NewTabPagePreloading.sys.mjs
++++ b/browser/components/tabbrowser/NewTabPagePreloading.sys.mjs
 @@ -22,7 +22,7 @@
    // Maximum number of instances of a given page we'll preload at any time.
    // Because we preload about:newtab for normal windows, and about:privatebrowsing
