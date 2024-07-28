@@ -1,0 +1,39 @@
+--- a/browser/components/preferences/home.js
++++ b/browser/components/preferences/home.js
+@@ -245,6 +245,7 @@
+       }
+     }
+ 
++    this.toggleRestoreDefaultsBtn();
+     this._renderCustomNewTabSettings();
+   },
+ 
+@@ -692,14 +693,15 @@
+     const homeContentChanged =
+       !this.isPocketNewtabEnabled &&
+       this.homePanePrefs.some(pref => pref.hasUserValue);
++    const homemodeVal = document.getElementById("homeMode").value;
++    const homepageEmpty = homemodeVal == "1";
+     const newtabPref = Preferences.get(this.NEWTAB_ENABLED_PREF);
+     const extensionControlled = Preferences.get(
+       "browser.startup.homepage_override.extensionControlled"
+     );
+ 
+     return (
+-      homeContentChanged ||
+-      HomePage.overridden ||
++      !homepageEmpty ||
+       newtabPref.hasUserValue ||
+       AboutNewTab.newTabURLOverridden ||
+       extensionControlled
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -668,7 +668,7 @@
+ home-newtabs-mode-label = New tabs
+ 
+ home-restore-defaults =
+-    .label = Restore Defaults
++    .label = Clear Values
+     .accesskey = R
+ 
+ home-mode-choice-default-fx =
