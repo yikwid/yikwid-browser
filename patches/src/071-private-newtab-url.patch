@@ -1,0 +1,192 @@
+--- a/browser/base/content/browser-places.js
++++ b/browser/base/content/browser-places.js
+@@ -1430,6 +1430,7 @@
+     ];
+     if (PrivateBrowsingUtils.isWindowPrivate(window)) {
+       newTabURLs.push("about:privatebrowsing");
++      // Yikwid TODO add custom private url
+     }
+     return newTabURLs.some(newTabUriString =>
+       this._newTabURI(newTabUriString)?.equalsExceptRef(uri)
+--- a/browser/base/content/utilityOverlay.js
++++ b/browser/base/content/utilityOverlay.js
+@@ -37,10 +37,21 @@
+   enumerable: true,
+   get() {
+     if (PrivateBrowsingUtils.isWindowPrivate(window)) {
++      let newtabEnabled = Services.prefs.getBoolPref(
++        "browser.newtabpage.enabled",
++        false
++      );
++      let newtabPrivateUrl = Services.prefs.getStringPref(
++        "browser.newtabpage.privateurl",
++        ""
++      );
+       if (
+         !PrivateBrowsingUtils.permanentPrivateBrowsing &&
+         !AboutNewTab.newTabURLOverridden
+       ) {
++        if (newtabEnabled && newtabPrivateUrl.length > 0) {
++            return newtabPrivateUrl;
++        }
+         return "about:privatebrowsing";
+       }
+       // If an extension controls the setting and does not have private
+--- a/browser/components/preferences/home.inc.xhtml
++++ b/browser/components/preferences/home.inc.xhtml
+@@ -25,7 +25,7 @@
+   <label><html:h2 data-l10n-id="home-new-windows-tabs-header"/></label>
+   <description class="description-deemphasized" data-l10n-id="home-new-windows-tabs-description2" />
+ 
+-  <hbox id="homepageAndNewWindowsOption" align="center" data-subcategory="homeOverride">
++  <hbox id="homepageAndNewWindowsOption" align="top" data-subcategory="homeOverride">
+     <label control="homeMode" data-l10n-id="home-homepage-mode-label" flex="1" />
+ 
+     <vbox flex="1">
+@@ -73,7 +73,7 @@
+       </vbox>
+     </vbox>
+   </hbox>
+-  <hbox id="newTabsOption" data-subcategory="newtabOverride" align="center">
++  <hbox id="newTabsOption" data-subcategory="newtabOverride" align="top">
+     <label control="newTabMode" data-l10n-id="home-newtabs-mode-label" flex="1" />
+ 
+     <vbox flex="1">
+@@ -82,7 +82,7 @@
+       <menulist id="newTabMode" flex="1" data-preference-related="browser.newtabpage.enabled">
+         <menupopup>
+           <menuitem value="0" data-l10n-id="home-mode-choice-blank" />
+-          <menuitem value="1" data-l10n-id="newtab-mode-choice-custom" />
++          <menuitem value="1" data-l10n-id="home-mode-choice-custom" />
+         </menupopup>
+       </menulist>
+ 
+@@ -118,6 +118,23 @@
+                   search-l10n-ids="select-bookmark-window2.title, select-bookmark-desc"/>
+         </hbox>
+         -->
++        <label data-l10n-id="home-newtab-private-label" flex="1" />
++        <box role="combobox">
++          <html:input id="newTabPagePrivateUrl"
++                      type="text"
++                      is="autocomplete-input"
++                      class="uri-element"
++                      style="flex: 1;"
++                      data-preference-related="browser.newtabpage.privateurl"
++                      data-l10n-id="home-homepage-custom-url"
++                      autocompletepopup="newTabUrlAutocomplete" />
++          <popupset>
++            <panel id="newTabUrlAutocomplete"
++                   is="autocomplete-richlistbox-popup"
++                   type="autocomplete-richlistbox"
++                   noautofocus="true"/>
++          </popupset>
++        </box>
+       </vbox>
+     </vbox>
+   </hbox>
+--- a/browser/components/preferences/home.js
++++ b/browser/components/preferences/home.js
+@@ -27,6 +27,7 @@
+   { id: "pref.browser.homepage.disable_button.restore_default", type: "bool" },
+   { id: "browser.newtabpage.enabled", type: "bool" },
+   { id: "browser.newtabpage.url", type: "wstring" },
++  { id: "browser.newtabpage.privateurl", type: "wstring" },
+ ]);
+ 
+ const HOMEPAGE_OVERRIDE_KEY = "homepage_override";
+@@ -44,6 +45,7 @@
+   NEWTAB_MODE_BLANK: "0",
+   NEWTAB_MODE_CUSTOM: "1",
+   NEWTAB_CUSTOM_PREF: "browser.newtabpage.url",
++  NEWTAB_PRIVATE_PREF: "browser.newtabpage.privateurl",
+   ACTIVITY_STREAM_PREF_BRANCH: "browser.newtabpage.activity-stream.",
+ 
+   get homePanePrefs() {
+@@ -85,11 +87,20 @@
+       if (newtabCustomPref !== customurl.value) {
+         Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, customurl.value);
+       }
++      let privateurl = document.getElementById("newTabPagePrivateUrl");
++      let newtabPrivatePref = Services.prefs.getStringPref(
++        this.NEWTAB_PRIVATE_PREF,
++        ""
++      );
++      if (newtabPrivatePref !== privateurl.value) {
++        Services.prefs.setStringPref(this.NEWTAB_PRIVATE_PREF, privateurl.value);
++      }
+       // Only set this if the pref has changed, otherwise the pref change will trigger other listeners to repeat.
+       if (newtabEnabledPref !== newValue) {
+         Services.prefs.setBoolPref(this.NEWTAB_ENABLED_PREF, newValue);
+         if (newValue == this.NEWTAB_MODE_BLANK) {
+           Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, "");
++          Services.prefs.setStringPref(this.NEWTAB_PRIVATE_PREF, "");
+         }
+       }
+       let selectedAddon = ExtensionSettingsStore.getSetting(
+@@ -120,8 +131,14 @@
+       this.NEWTAB_CUSTOM_PREF,
+       ""
+     );
++    let newtabPrivatePref = Services.prefs.getStringPref(
++      this.NEWTAB_PRIVATE_PREF,
++      ""
++    );
+     let customurl = document.getElementById("newTabPageUrl");
+     customurl.value = newtabCustomPref;
++    let privateurl = document.getElementById("newTabPagePrivateUrl");
++    privateurl.value = newtabPrivatePref;
+ 
+     // If the new tab url was changed to about:blank or about:newtab
+     if (
+@@ -662,6 +679,11 @@
+     Services.prefs.setStringPref(this.NEWTAB_CUSTOM_PREF, value);
+   },
+ 
++  onCustomNewTabPrivatePageChange(event) {
++    const value = event.target.value || "";
++    Services.prefs.setStringPref(this.NEWTAB_PRIVATE_PREF, value);
++  },
++
+   /**
+    * Check all Home Tab preferences for user set values.
+    */
+@@ -744,6 +766,9 @@
+       .getElementById("newTabPageUrl")
+       .addEventListener("change", this.onCustomNewTabPageChange.bind(this));
+     document
++      .getElementById("newTabPagePrivateUrl")
++      .addEventListener("change", this.onCustomNewTabPrivatePageChange.bind(this));
++    document
+       .getElementById("homeMode")
+       .addEventListener("command", this.onMenuChange.bind(this));
+ 
+--- a/browser/locales/en-US/browser/preferences/preferences.ftl
++++ b/browser/locales/en-US/browser/preferences/preferences.ftl
+@@ -683,8 +683,7 @@
+ home-homepage-custom-url =
+     .placeholder = Paste a URL…
+ 
+-newtab-mode-choice-custom =
+-    .label = Custom URL
++home-newtab-private-label = Private tabs (empty for blank tab):
+ 
+ # This string has a special case for '1' and [other] (default). If necessary for
+ # your language, you can add {$tabCount} to your translations and use the
+--- a/browser/modules/BrowserWindowTracker.sys.mjs
++++ b/browser/modules/BrowserWindowTracker.sys.mjs
+@@ -298,6 +298,14 @@
+         // Force the new window to load about:privatebrowsing instead of the
+         // default home page.
+         loadURIString = "about:privatebrowsing";
++        // Yikwid custom newtab for first tab opened in private windows
++        let privateurl = Services.prefs.getStringPref("browser.newtabpage.privateurl", "");
++        if (
++          Services.prefs.getBoolPref("browser.newtabpage.enabled") &&
++          privateurl.length > 0
++        ) {
++          loadURIString = privateurl;
++        }
+       }
+     } else {
+       windowFeatures += ",non-private";

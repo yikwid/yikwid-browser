@@ -16,3 +16,14 @@
            <menuitem value="1" data-l10n-id="home-mode-choice-blank" />
          </menupopup>
        </menulist>
+--- a/browser/modules/HomePage.sys.mjs
++++ b/browser/modules/HomePage.sys.mjs
+@@ -14,7 +14,7 @@
+ });
+ 
+ const kPrefName = "browser.startup.homepage";
+-const kDefaultHomePage = "about:home";
++const kDefaultHomePage = "about:blank";
+ const kExtensionControllerPref =
+   "browser.startup.homepage_override.extensionControlled";
+ const kHomePageIgnoreListId = "homepage-urls";
