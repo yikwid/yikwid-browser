@@ -1,17 +1,16 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Yikwid Browser
-Comment=Web Browser
 GenericName=Web Browser
+Comment=View Internet Sites
 Keywords=Internet;WWW;Browser;Web;Explorer
 Exec=/opt/yikwid/yikwid %u
 Terminal=false
 StartupNotify=true
 Type=Application
-Icon=/opt/yikwid/browser/chrome/icons/default/default128.png
+Icon=/opt/yikwid/browser/chrome/icons/default/default256
 Categories=Network;WebBrowser;
 MimeType=application/json;application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;application/x-xpinstall;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;video/webm;x-scheme-handler/chrome;x-scheme-handler/ftp;x-scheme-handler/http;x-scheme-handler/https;
-StartupNotify=true
 Actions=new-window;new-private-window;preferences;
 
 [Desktop Action new-window]

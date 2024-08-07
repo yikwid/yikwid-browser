@@ -4,3 +4,4 @@ yikwid-editing/
 yikwid-patched/
 TODO.*
 *.deb
+*.AppImage
