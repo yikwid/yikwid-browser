@@ -12,7 +12,7 @@
 -    this.initPasswordControlItems();
 +    // Yikwid
 +    //this.initPasswordControlItems();
-+    document.getElementById("context-reveal-password").hidden = true;
++    this.document.getElementById("context-reveal-password").hidden = true;
      this.initPDFItems();
  
      this.showHideSeparators(aXulMenu);
