@@ -283,9 +283,13 @@ do_distdeb() {
 
     TMPDIR=$( mktemp -d )
     BUILD_DIR="yikwid_${DIST}_${VERSION}_${DEBARCH}"
-    mkdir -p "${TMPDIR}/${BUILD_DIR}/usr/share/applications" "${TMPDIR}/${BUILD_DIR}/opt"
+    mkdir -p "${TMPDIR}/${BUILD_DIR}/usr/share/applications" \
+             "${TMPDIR}/${BUILD_DIR}/opt" \
+             "${TMPDIR}/${BUILD_DIR}/usr/share/icons/hicolor/128x128/apps/"
     install -m 644  "${THIS_SCRIPT_DIR}/assets/build/yikwid.desktop" \
                     "${TMPDIR}/${BUILD_DIR}/usr/share/applications/yikwid.desktop"
+    install -m 644  "${THIS_SCRIPT_DIR}/themes/browser/branding/yikwid/default128.png" \
+                    "${TMPDIR}/${BUILD_DIR}/usr/share/icons/hicolor/128x128/apps/yikwid.png"
     cp "$PKG_TAR" "$TMPDIR"
 
     pushd "$TMPDIR" 2>&1 > /dev/null
