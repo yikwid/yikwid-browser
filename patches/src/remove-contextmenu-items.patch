@@ -1,5 +1,5 @@
---- a/browser/base/content/nsContextMenu.js
-+++ b/browser/base/content/nsContextMenu.js
+--- a/browser/base/content/nsContextMenu.sys.mjs
++++ b/browser/base/content/nsContextMenu.sys.mjs
 @@ -352,10 +352,13 @@ class nsContextMenu {
      this.initClipboardItems();
      this.initMediaPlayerItems();

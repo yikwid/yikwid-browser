@@ -29,7 +29,7 @@ show_help() {
     echo "  init        - Initialize Yikwid Browser build environment"
     echo "  reset-build - Remove the build from $YW_BUILD_DIR/"
     echo "  reset       - Reset the $YW_PATCH_DIR/ and $YW_BUILD_DIR/ (no update)"
-    echo "  reset-full  - Reset the $LW_CLONE_DIR/ upstream repository (no update)"
+    echo "  reset-full  - Reset the $LW_CLONE_DIR/ upstream repository (update build)"
     echo "  pull        - Update upstream code repository (with update)"
     echo "  apply       - Apply Yikwid patches to upstream code"
     echo "  diff        - View diff from original source and modified source"
@@ -359,7 +359,7 @@ do_distappimg() {
     mkdir -p "${TMPDIR}/${BUILD_DIR}/opt"
     install -m 644  "${THIS_SCRIPT_DIR}/assets/build/yikwid.desktop" \
                     "${TMPDIR}/${BUILD_DIR}/yikwid.desktop"
-    install -m 644  "${THIS_SCRIPT_DIR}/themes/browser/branding/yikwid/default256.png" \
+    install -m 644  "${THIS_SCRIPT_DIR}/themes/browser/branding/yikwid/default128.png" \
                     "${TMPDIR}/${BUILD_DIR}/yikwid.png"
     ln "${TMPDIR}/${BUILD_DIR}/yikwid.png" \
        "${TMPDIR}/${BUILD_DIR}/.DirIcon"

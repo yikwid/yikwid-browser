@@ -1,13 +1,10 @@
---- a/browser/themes/shared/customizableui/customizeMode.css
-+++ b/browser/themes/shared/customizableui/customizeMode.css
-@@ -269,6 +269,10 @@ toolbarpaletteitem[place=toolbar] > toolbarspring {
-   margin-block: 5px;
+--- a/browser/themes/shared/urlbar-searchbar.css
++++ b/browser/themes/shared/urlbar-searchbar.css
+@@ -968,6 +968,7 @@
+ #search-container,
+ #wrapper-search-container {
+   flex: 175 175 auto;
++  display: none !important;
  }
  
-+#wrapper-search-container {
-+  display: none !important;
-+}
-+
- toolbarpaletteitem > #search-container > #searchbar > .searchbar-textbox {
-   visibility: hidden; /* Hide searchbar placeholder text in customize mode */
- }
+ #search-container {
