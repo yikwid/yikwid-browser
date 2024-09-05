@@ -2,7 +2,7 @@
 --ignore-directory=is:tests
 --ignore-directory=is:testing
 --ignore-directory=is:crashtests
---ignore-directory=is:devtools
+# --ignore-directory=is:devtools
 --ignore-directory=is:vendor
 --ignore-directory=is:third_party
 --ignore-directory=is:octane
