@@ -51,6 +51,29 @@
  
      # override the firefox version
      for file in ["browser/config/version.txt", "browser/config/version_display.txt"]:
+@@ -153,11 +152,11 @@
+     with TemporaryDirectory() as tmpdir:
+         exec(f"wget -qO {tmpdir}/l10n.zip 'https://codeload.github.com/mozilla-l10n/firefox-l10n/zip/refs/heads/main'")
+         exec(f"unzip -qo {tmpdir}/l10n.zip -d {tmpdir}/l10n")
+-        exec(f"mv {tmpdir}/l10n/firefox-l10n-main lw/l10n")
++        exec(f"mv {tmpdir}/l10n/firefox-l10n-main yw/l10n")
+ 
+     print("-> Patching appstrings.properties")
+     # Why is "Firefox" hardcoded there???
+-    exec("find . -path '*/appstrings.properties' -exec sed -i s/Firefox/LibreWolf/ {} \;")
++    exec("find . -path '*/appstrings.properties' -exec sed -i s/Firefox/Yikwid/ {} \;")
+ 
+     print("-> Applying LibreWolf locales")
+     l10n_dir = Path("..", "l10n")
+@@ -174,7 +174,7 @@
+             )
+         else:
+             target_path = Path(
+-                "lw", "l10n",
++                "yw", "l10n",
+                 *rel_path.parts[0:2],
+                 *rel_path.parts[1:]
+             )
 @@ -162,11 +162,11 @@
  #
  
@@ -60,8 +83,8 @@
      sys.exit(1)
  version = args[0]
  release = args[1]
--if not os.path.exists('librewolf-{}-{}'.format(version, release) + '/configure.py'):
-+if not os.path.exists('yikwid-{}-{}'.format(version, release) + '/configure.py'):
+-srcdir = "librewolf-{}-{}".format(version, release)
++srcdir = "yikwid-{}-{}".format(version, release)
+ if not os.path.exists(srcdir + '/configure.py'):
      sys.stderr.write('error: folder doesn\'t look like a Firefox folder.')
      sys.exit(1)
- 

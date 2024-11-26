@@ -20,10 +20,10 @@
      if (this.#initializationStatus === "success") {
        return;
      }
-@@ -1630,6 +1636,9 @@ export class SearchService {
-    *   An object representing the private default search engine.
+@@ -1572,6 +1572,9 @@ export class SearchService {
+    *   The refined search configuration for this user.
     */
-   async #loadEngines(settings, engines, privateDefault) {
+   async #loadEngines(settings, refinedConfig) {
 +    // Yikwid no engine loading
 +    return;
 +

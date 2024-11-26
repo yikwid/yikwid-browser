@@ -187,6 +187,12 @@ do_init() {
 
         do_patches "patches/pre" "$LW_CLONE_DIR"
 
+        # Why is "LibreWolf" hardcoded there???
+        find "${LW_CLONE_DIR}" -path 'l10n/*.ftl' -exec sed -i 's/LibreWolf/Yikwid/' {} \;
+
+        # Clear search-config.json
+        echo '{ "data": [], "timestamp": 1654094046000 }' > "${LW_CLONE_DIR}/assets/search-config.json"
+
         git clone --single-branch --branch "$YW_SETTIONS_TAG" "$YW_SETTINGS_REPO" "$LW_CLONE_DIR/settings"
 
         add_lw_patches "patches/lw" "$LW_CLONE_DIR"

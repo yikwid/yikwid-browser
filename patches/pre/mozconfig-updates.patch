@@ -1,6 +1,6 @@
 --- a/assets/mozconfig.new
 +++ b/assets/mozconfig.new
-@@ -13,8 +13,8 @@
+@@ -13,12 +13,12 @@
  ac_add_options --enable-release
  ac_add_options --enable-rust-simd
  
@@ -10,10 +10,15 @@
 +ac_add_options --with-branding=browser/branding/yikwid
  
  ac_add_options --with-unsigned-addon-scopes=app,system
+ 
+-ac_add_options --with-l10n-base=$PWD/lw/l10n
++ac_add_options --with-l10n-base=$PWD/yw/l10n
+ 
+ ac_add_options --enable-bootstrap
  
 --- a/assets/mozconfig.new.without-bootstrap
 +++ b/assets/mozconfig.new.without-bootstrap
-@@ -13,8 +13,8 @@
+@@ -13,12 +13,12 @@
  ac_add_options --enable-release
  ac_add_options --enable-rust-simd
  
@@ -23,6 +28,11 @@
 +ac_add_options --with-branding=browser/branding/yikwid
  
  ac_add_options --with-unsigned-addon-scopes=app,system
+ 
+-ac_add_options --with-l10n-base=$PWD/lw/l10n
++ac_add_options --with-l10n-base=$PWD/yw/l10n
+ 
+ ac_add_options --enable-bootstrap
  
 --- a/assets/mozconfig.sample.1
 +++ b/assets/mozconfig.sample.1

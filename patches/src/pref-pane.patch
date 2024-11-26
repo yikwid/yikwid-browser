@@ -1,6 +1,6 @@
 --- a/browser/locales/en-US/browser/preferences/preferences.ftl
 +++ b/browser/locales/en-US/browser/preferences/preferences.ftl
-@@ -1443,14 +1443,14 @@ save-files-to-cloud-storage =
+@@ -1443,12 +1443,12 @@ save-files-to-cloud-storage =
  ## LibreWolf preferences
  
  # Sidebar
@@ -8,13 +8,12 @@
 +pane-librewolf-title = Yikwid
  category-librewolf =
      .tooltiptext = about:config changes, logically grouped and easily accessible
- 
  # Main content
 -librewolf-header = LibreWolf Preferences
 +librewolf-header = Yikwid Preferences
  librewolf-warning-title = Heads up!
 -librewolf-warning-description = We carefully choose default settings to focus on privacy and security. When changing these settings, read the descriptions to understand the implications of those changes.
 +librewolf-warning-description = When changing these settings, read the descriptions to understand the implications of those changes.
- 
  # Page Layout
  librewolf-general-heading = Browser Behavior
+ librewolf-extension-update-checkbox =
