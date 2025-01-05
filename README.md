@@ -4,7 +4,7 @@ This repository contains all the patches and theming that make up Yikwid Browser
 
 ## Yikwid Browser build instructions
 
-The Yikwid Browser is built from source using the provided `ybb` script (Yikwid Browser Builder). Run `./ybb help` for more info.
+The Yikwid Browser is built from source using the provided `ybb` script (Yikwid Browser Builder), but commands are availble via `make` for convenience. Run `make help` (or `./ybb help`) for more info.
 
 ### Building from Source
 
@@ -18,18 +18,22 @@ cd yikwid-browser
 Then you have to bootstrap your system to be able to build it. You only have to do this one time. It is done by running the following commands:
 
 ```bash
+# Dependencies
 sudo apt install python3 python3-dev python3-pip bash findutils gzip libxml2 m4 make perl tar unzip watchman
-./ybb init
+# Init dev environment
+make init
 ```
 
 Finally you can build the browser and then package or run it with the following commands:
 ```bash
 # Build browser
-./ybb build
+make build
 # Run the build
-./ybb run
+make run
 # Package the build
-./ybb package
+make package
+# Build dist
+make dist-deb
 ```
 
 ## Development Notes
