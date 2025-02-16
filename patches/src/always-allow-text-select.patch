@@ -1,0 +1,14 @@
+--- a/layout/generic/nsIFrame.cpp
++++ b/layout/generic/nsIFrame.cpp
+@@ -4620,6 +4620,11 @@ static StyleUserSelect UsedUserSelect(const nsIFrame* aFrame) {
+   }
+ 
+   auto style = aFrame->Style()->UserSelect();
++  // Yikwid: Do not prevent user from selecting text
++  // TODO: Make this a configuration
++  if (style == StyleUserSelect::None) {
++    style = StyleUserSelect::Auto;
++  }
+   if (style != StyleUserSelect::Auto) {
+     return style;
+   }
