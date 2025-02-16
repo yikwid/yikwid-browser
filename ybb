@@ -270,7 +270,7 @@ do_distdeb() {
     DEBARCH=amd64
     LOCALE=en-US
     DIST=deb
-    PKG_TAR="${YW_BUILD_DIR}/yikwid-${LW_CLONE_TAG}.${LOCALE}.${OS}-${ARCH}.tar.bz2"
+    PKG_TAR="${YW_BUILD_DIR}/yikwid-${LW_CLONE_TAG}.${LOCALE}.${OS}-${ARCH}.tar.xz"
     PKG_TAR_BASENAME=$( basename "$PKG_TAR" )
     NAME_VERS="${PKG_TAR_BASENAME/.en*}"
     VERSION="${NAME_VERS#*-}"
