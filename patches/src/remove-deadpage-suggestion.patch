@@ -5,7 +5,7 @@
  # Variables:
  # $hostAndPath (String) - a suggested site (e.g. "www.example.com") that the user may have meant instead.
 -neterror-dns-not-found-with-suggestion = Did you mean to go to <a data-l10n-name="website">{ $hostAndPath }</a>?
-+neterror-dns-not-found-with-suggestion = " "
++neterror-dns-not-found-with-suggestion = \u0020
  neterror-dns-not-found-hint-header = <strong>If you entered the right address, you can:</strong>
  neterror-dns-not-found-hint-try-again = Try again later
  neterror-dns-not-found-hint-check-network = Check your network connection
