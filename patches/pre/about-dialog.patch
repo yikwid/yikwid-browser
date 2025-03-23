@@ -39,9 +39,14 @@
    font-size: 30px;
    font-weight: bold;
    line-height: 1em;
---- a/themes/browser/base/content/aboutDialog.xhtml
+--- a/l10n/en-US/browser/aboutDialog.inc.ftl
++++ b/l10n/en-US/browser/aboutDialog.inc.ftl
+@@ -1 +1 @@
+-about-librewolf = LibreWolf is a custom version of Firefox, with the primary goals of privacy, security and user freedom.
++about-librewolf = Yikwid Browser is a fork of LibreWolf and Firefox with the goal of getting out of the way of the user. If you want a seatbelt and comfort, go elsewhere.
+--- a/themes/browser/base/content/aboutDialog.xhtml.old
 +++ b/themes/browser/base/content/aboutDialog.xhtml
-@@ -34,19 +34,20 @@
+@@ -34,16 +34,16 @@
    <script src="chrome://browser/content/aboutDialog.js"/>
  
    <div id="grid">
@@ -55,13 +60,7 @@
        </div >
        <label id="distribution" />
        <label id="distributionId" />
-       <label id="aboutText">
--        LibreWolf is an independent fork of Firefox, with the primary
--        goals of privacy, security and user freedom.
-+        Yikwid Browser is a fork of LibreWolf and Firefox, with the goal
-+        of getting out of the way of the user. If you want a seatbelt,
-+        go elsewhere.
-       </label>
+       <label id="aboutText" data-l10n-id="about-librewolf" />
 -      <label id="websiteLink" is="text-link" href="https://librewolf.net/">https://librewolf.net/</label>
 +      <label id="websiteLink" is="text-link" href="https://yikwid.net/">https://yikwid.net/</label>
      </div>
