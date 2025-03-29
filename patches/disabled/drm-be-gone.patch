@@ -1,0 +1,27 @@
+--- a/browser/actors/EncryptedMediaParent.sys.mjs
++++ b/browser/actors/EncryptedMediaParent.sys.mjs
+@@ -117,9 +117,10 @@ export class EncryptedMediaParent extends JSWindowActorParent {
+       case "cdm-disabled":
+         this.handledMessages.add(status);
+         notificationId = "drmContentDisabled";
+-        buttonCallback = () => {
+-          this.ensureEMEEnabled(browser, keySystem);
+-        };
++        // Yikwid: No "Enable DRM" button on the "We don't do DRM" message
++        //buttonCallback = () => {
++        //  this.ensureEMEEnabled(browser, keySystem);
++        //};
+         notificationMessage = lazy.gNavigatorBundle.GetStringFromName(
+           "emeNotifications.drmContentDisabled.message2"
+         );
+--- a/browser/locales/en-US/chrome/browser/browser.properties
++++ b/browser/locales/en-US/chrome/browser/browser.properties
+@@ -304,7 +304,7 @@ sidebar.moveToLeft=Move Sidebar to Left
+ sidebar.moveToRight=Move Sidebar to Right
+ 
+ # LOCALIZATION NOTE(emeNotifications.drmContentDisabled.message): NB: inserted via innerHTML, so please don't use <, > or & in this string. %S will be the 'learn more' link
+-emeNotifications.drmContentDisabled.message2 = You must enable DRM to play some audio or video on this page.
++emeNotifications.drmContentDisabled.message2 = This page is attempting to use DRM restricted content. Yikwid supports an open Internet and does not permit DRM.
+ emeNotifications.drmContentDisabled.button.label = Enable DRM
+ emeNotifications.drmContentDisabled.button.accesskey = E
+ 

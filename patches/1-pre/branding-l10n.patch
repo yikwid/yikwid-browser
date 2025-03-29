@@ -1,0 +1,5 @@
+--- a/l10n/en-US/browser/browser.inc.ftl
++++ b/l10n/en-US/browser/browser.inc.ftl
+@@ -1 +1 @@
+-identity-allow-site-data = LibreWolf: Always store cookies/data for this site
++identity-allow-site-data = Always store cookies/data for this site
