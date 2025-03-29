@@ -2,6 +2,7 @@
 upstream-patched/
 yikwid-editing/
 yikwid-patched/
+ignore/
 TODO.*
 *.deb
 *.AppImage

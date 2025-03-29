@@ -180,12 +180,12 @@ do_passthru() {
 
 do_init() {
     debug "Starting do_init"
-    # TODO confirm required packages from patches/pre/no-sudo-please.patch
-    # TODO confirm required packages from patches/lw/still-no-sudo.patch
+    # TODO confirm required packages from patches/1-pre/no-sudo-please.patch
+    # TODO confirm required packages from patches/2-lw/still-no-sudo.patch
     if ! upstream_cloned; then
         git clone --single-branch --branch "$LW_CLONE_TAG" "$LW_GIT_REPO" "$LW_CLONE_DIR"
 
-        do_patches "patches/pre" "$LW_CLONE_DIR"
+        do_patches "patches/1-pre" "$LW_CLONE_DIR"
 
         # Why is "LibreWolf" hardcoded there???
         find "${LW_CLONE_DIR}" -path 'l10n/*.ftl' -exec sed -i 's/LibreWolf/Yikwid/' {} \;
@@ -195,7 +195,7 @@ do_init() {
 
         git clone --single-branch --branch "$YW_SETTIONS_TAG" "$YW_SETTINGS_REPO" "$LW_CLONE_DIR/settings"
 
-        add_lw_patches "patches/lw" "$LW_CLONE_DIR"
+        add_lw_patches "patches/2-lw" "$LW_CLONE_DIR"
 
         do_passthru "${THIS_SCRIPT_DIR}/${LW_CLONE_DIR}" bootstrap
 
@@ -231,12 +231,12 @@ do_reset() {
 
         rsync -a --del "${LW_CLONE_DIR}/" "${YW_PATCH_DIR}/"
 
-        do_patches "patches/pre" "$YW_PATCH_DIR"
-        add_lw_patches "patches/lw" "$YW_PATCH_DIR"
+        do_patches "patches/1-pre" "$YW_PATCH_DIR"
+        add_lw_patches "patches/2-lw" "$YW_PATCH_DIR"
         mv "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}/lw/"* "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}/yw/"
 
         # XXX using LW_CLONE_TAG in place of version for now
-        do_patches "patches/src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
+        do_patches "patches/3-src" "${YW_PATCH_DIR}/yikwid-${LW_CLONE_TAG}"
 
         rsync -a --del "${YW_PATCH_DIR}/" "${YW_BUILD_DIR}/"
     else
