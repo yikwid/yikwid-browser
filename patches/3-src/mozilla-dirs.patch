@@ -1,6 +1,6 @@
 --- a/toolkit/xre/nsXREDirProvider.cpp
 +++ b/toolkit/xre/nsXREDirProvider.cpp
-@@ -297,16 +297,16 @@ static nsresult GetSystemParentDirectory(nsIFile** aFile) {
+@@ -285,16 +285,16 @@ static nsresult GetSystemParentDirectory(nsIFile** aFile) {
    rv = GetOSXFolderType(kOnSystemDisk, kApplicationSupportFolderType,
                          getter_AddRefs(localDir));
    if (NS_SUCCEEDED(rv)) {
@@ -20,8 +20,8 @@
 +      "/usr/lib/yikwid"_ns
  #    endif
        ;
-   rv = NS_NewNativeLocalFile(dirname, false, getter_AddRefs(localDir));
-@@ -368,9 +368,9 @@ nsXREDirProvider::GetFile(const char* aProperty, bool* aPersistent,
+   rv = NS_NewNativeLocalFile(dirname, getter_AddRefs(localDir));
+@@ -366,9 +366,9 @@ nsXREDirProvider::GetFile(const char* aProperty, bool* aPersistent,
      rv = GetUserDataDirectoryHome(getter_AddRefs(file), false);
      NS_ENSURE_SUCCESS(rv, rv);
  #  if defined(XP_MACOSX)
@@ -33,7 +33,7 @@
  #  endif  // defined(XP_MACOSX)
    }
  #endif  // defined(XP_UNIX) || defined(XP_MACOSX)
-@@ -408,9 +408,9 @@ nsXREDirProvider::GetFile(const char* aProperty, bool* aPersistent,
+@@ -398,9 +398,9 @@ nsXREDirProvider::GetFile(const char* aProperty, bool* aPersistent,
    else if (!strcmp(aProperty, XRE_SYS_SHARE_EXTENSION_PARENT_DIR)) {
  #  ifdef ENABLE_SYSTEM_EXTENSION_DIRS
  #    if defined(__OpenBSD__) || defined(__FreeBSD__)
@@ -43,18 +43,18 @@
 -    static const char* const sysLExtDir = "/usr/share/librewolf/extensions";
 +    static const char* const sysLExtDir = "/usr/share/yikwid/extensions";
  #    endif
-     rv = NS_NewNativeLocalFile(nsDependentCString(sysLExtDir), false,
+     rv = NS_NewNativeLocalFile(nsDependentCString(sysLExtDir),
                                 getter_AddRefs(file));
-@@ -1105,7 +1105,7 @@ nsresult nsXREDirProvider::GetUpdateRootDir(nsIFile** aResult,
-             nsDependentCString(hasVendor ? GetAppVendor() : GetAppName())))) {
-       return NS_ERROR_FAILURE;
-     }
--  } else if (NS_FAILED(localDir->AppendNative("LibreWolf"_ns))) {
-+  } else if (NS_FAILED(localDir->AppendNative("Yikwid"_ns))) {
+@@ -926,7 +926,7 @@ nsresult nsXREDirProvider::GetUpdateRootDir(nsIFile** aResult,
+   }
+   appDirPath = Substring(appDirPath, 1, dotIndex - 1);
+ 
+-  if (NS_FAILED(localDir->AppendNative("LibreWolf"_ns))) {
++  if (NS_FAILED(localDir->AppendNative("Yikwid"_ns))) {
      return NS_ERROR_FAILURE;
    }
  
-@@ -1354,7 +1354,7 @@ nsresult nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* aFile) {
+@@ -1186,7 +1186,7 @@ nsresult nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* aFile) {
  
  #if defined(XP_MACOSX) || defined(XP_WIN)
  
@@ -63,7 +63,7 @@
    rv = aFile->AppendNative(nsDependentCString(sXR));
    NS_ENSURE_SUCCESS(rv, rv);
  
-@@ -1364,7 +1364,7 @@ nsresult nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* aFile) {
+@@ -1196,7 +1196,7 @@ nsresult nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* aFile) {
  
  #elif defined(XP_UNIX)
  

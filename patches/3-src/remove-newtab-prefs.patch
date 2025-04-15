@@ -1,5 +1,5 @@
---- a/browser/components/newtab/lib/AboutPreferences.sys.mjs
-+++ b/browser/components/newtab/lib/AboutPreferences.sys.mjs
+--- a/browser/extensions/newtab/lib/AboutPreferences.sys.mjs
++++ b/browser/extensions/newtab/lib/AboutPreferences.sys.mjs
 @@ -152,6 +152,9 @@ class AboutPreferences {
        element.disabled = Preferences.get(fullPref).locked;
      };
