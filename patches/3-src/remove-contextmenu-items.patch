@@ -1,6 +1,6 @@
 --- a/browser/base/content/nsContextMenu.sys.mjs
 +++ b/browser/base/content/nsContextMenu.sys.mjs
-@@ -352,10 +352,13 @@ class nsContextMenu {
+@@ -350,10 +350,13 @@ export class nsContextMenu {
      this.initClipboardItems();
      this.initMediaPlayerItems();
      this.initLeaveDOMFullScreenItems();
@@ -14,21 +14,23 @@
 +    //this.initPasswordControlItems();
 +    this.document.getElementById("context-reveal-password").hidden = true;
      this.initPDFItems();
+     this.initTextFragmentItems();
  
-     this.showHideSeparators(aXulMenu);
-@@ -796,7 +799,10 @@ class nsContextMenu {
+@@ -900,8 +903,11 @@ export class nsContextMenu {
          !this.onMozExtLink) ||
          this.onPlainTextLink
      );
+-    this.showItem("context-add-engine", this.shouldShowAddEngine());
 -    this.showItem("context-keywordfield", this.shouldShowAddKeyword());
 +    // Yikwid no search keyword
++    //this.showItem("context-add-engine", this.shouldShowAddEngine());
 +    //this.showItem("context-keywordfield", this.shouldShowAddKeyword());
++    document.getElementById("context-add-engine").hidden = true;
 +    document.getElementById("context-keywordfield").hidden = true;
-+
      this.showItem("frame", this.inFrame);
  
      if (this.inFrame) {
-@@ -2442,7 +2448,8 @@ class nsContextMenu {
+@@ -2792,7 +2798,8 @@ export class nsContextMenu {
      let menuItemPrivate = document.getElementById(
        "context-searchselect-private"
      );

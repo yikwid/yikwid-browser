@@ -243,7 +243,7 @@
  # standard CLDR forms, or only use the form for [other] if both strings should
 --- a/browser/modules/AboutNewTab.sys.mjs
 +++ b/browser/modules/AboutNewTab.sys.mjs
-@@ -12,10 +12,13 @@
+@@ -12,11 +12,14 @@
    ObjectUtils: "resource://gre/modules/ObjectUtils.sys.mjs",
  });
  
@@ -253,6 +253,7 @@
  const PREF_ACTIVITY_STREAM_DEBUG = "browser.newtabpage.activity-stream.debug";
  const TOPIC_APP_QUIT = "quit-application-granted";
  const BROWSER_READY_NOTIFICATION = "sessionstore-windows-restored";
+ const BUILTIN_ADDON_ID = "newtab@mozilla.org";
 +const NEWTAB_ENABLED_PREF = "browser.newtabpage.enabled";
 +const NEWTAB_CUSTOM_PREF = "browser.newtabpage.url";
  
