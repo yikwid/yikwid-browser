@@ -1,10 +1,29 @@
 --- a/browser/themes/shared/urlbar-searchbar.css
 +++ b/browser/themes/shared/urlbar-searchbar.css
-@@ -968,6 +968,7 @@
+@@ -72,6 +72,9 @@
+   text-shadow: none;
+   color: var(--toolbar-field-color);
+ 
++  /* Yikwid */
++  padding-left: 0.2rem;
++
+   /**
+    * System colors and widgets are set based on toolbar color. Since toolbar
+    * fields can be styled differently from the toolbar, we need to use the
+@@ -993,6 +996,7 @@
  #search-container,
- #wrapper-search-container {
+ #wrapper-search-container:not([place="panel"]) {
    flex: 175 175 auto;
 +  display: none !important;
  }
  
  #search-container {
+@@ -1097,6 +1101,8 @@
+ }
+ 
+ #urlbar-searchmode-switcher {
++  /* Yikwid - no search switching; this is a browser, thank you */
++  display: none !important;
+   appearance: none;
+   border-radius: var(--urlbar-icon-border-radius);
+   margin: 0;

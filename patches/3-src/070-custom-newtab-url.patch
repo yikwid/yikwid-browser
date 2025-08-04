@@ -243,7 +243,7 @@
  # standard CLDR forms, or only use the form for [other] if both strings should
 --- a/browser/modules/AboutNewTab.sys.mjs
 +++ b/browser/modules/AboutNewTab.sys.mjs
-@@ -12,11 +12,14 @@
+@@ -12,13 +12,16 @@
    ObjectUtils: "resource://gre/modules/ObjectUtils.sys.mjs",
  });
  
@@ -251,7 +251,9 @@
 +// Yikwid: newtab page is just blank page now
 +const ABOUT_URL = "about:blank";
  const PREF_ACTIVITY_STREAM_DEBUG = "browser.newtabpage.activity-stream.debug";
- const TOPIC_APP_QUIT = "quit-application-granted";
+ // AboutHomeStartupCache needs us in "quit-application", so stay alive longer.
+ // TODO: We could better have a shared async shutdown blocker?
+ const TOPIC_APP_QUIT = "profile-before-change";
  const BROWSER_READY_NOTIFICATION = "sessionstore-windows-restored";
  const BUILTIN_ADDON_ID = "newtab@mozilla.org";
 +const NEWTAB_ENABLED_PREF = "browser.newtabpage.enabled";

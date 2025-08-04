@@ -1,21 +1,23 @@
 --- a/browser/components/preferences/findInPage.js
 +++ b/browser/components/preferences/findInPage.js
-@@ -50,13 +50,14 @@ var gSearchResultsPane = {
+@@ -50,14 +50,15 @@ var gSearchResultsPane = {
      });
  
      if (!this.searchInput.hidden) {
 -      this.searchInput.addEventListener("input", this);
--      this.searchInput.addEventListener("command", this);
 -      window.addEventListener("DOMContentLoaded", () => {
--        this.searchInput.focus();
+-        this.searchInput.updateComplete.then(() => {
+-          this.searchInput.focus();
+-        });
 -        // Initialize other panes in an idle callback.
 -        window.requestIdleCallback(() => this.initializeCategories());
 -      });
 +      // Yikwid no search here for now until we filter results (but "hiding" it makes page look terrible)
 +      // this.searchInput.addEventListener("input", this);
-+      // this.searchInput.addEventListener("command", this);
 +      // window.addEventListener("DOMContentLoaded", () => {
-+      //   this.searchInput.focus();
++      //   this.searchInput.updateComplete.then(() => {
++      //     this.searchInput.focus();
++      //   });
 +      //   // Initialize other panes in an idle callback.
 +      //   window.requestIdleCallback(() => this.initializeCategories());
 +      // });
@@ -28,7 +30,7 @@
                  <html:a href="about:policies" target="_blank" data-l10n-id="managed-notice"/>
                </hbox>
              </hbox>
--            <search-textbox
+-            <html:moz-input-search
 +            <!-- Yikwid no search box for now -->
 +            <hbox
                id="searchInput"

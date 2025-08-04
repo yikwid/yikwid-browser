@@ -1,0 +1,14 @@
+--- a/browser/themes/shared/preferences/preferences.css
++++ b/browser/themes/shared/preferences/preferences.css
+@@ -470,6 +474,11 @@ richlistitem[selected] .actionsMenu:focus-visible {
+   margin-inline-end: 0;
+ }
+ 
++/* Yikwid - no home crap */
++#homeContentsGroup {
++    display: none !important;
++}
++
+ #homeContentsGroup .checkbox-icon[src] {
+   -moz-context-properties: fill;
+   fill: currentColor;

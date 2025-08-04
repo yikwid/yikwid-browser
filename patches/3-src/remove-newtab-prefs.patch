@@ -1,12 +1,11 @@
 --- a/browser/extensions/newtab/lib/AboutPreferences.sys.mjs
 +++ b/browser/extensions/newtab/lib/AboutPreferences.sys.mjs
-@@ -152,6 +152,9 @@ class AboutPreferences {
+@@ -250,6 +250,8 @@ export class AboutPreferences {
        element.disabled = Preferences.get(fullPref).locked;
      };
  
 +    // Yikwid: new tab is removed, don't display settings
-+    return;
-+
-     // Insert a new group immediately after the homepage one
-     const homeGroup = document.getElementById("homepageGroup");
-     const contentsGroup = homeGroup.insertAdjacentElement(
++    shouldHidePref = true;
+     // Don't show any sections that we don't want to expose in preferences UI
+     if (shouldHidePref) {
+       return;

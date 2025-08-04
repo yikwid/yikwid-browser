@@ -43,7 +43,7 @@
 @@ -2864,6 +2876,9 @@ export class SearchService {
     *   The appropriate search engine, or null if one could not be determined.
     */
-   #findAndSetNewDefaultEngine({ privateMode }) {
+   #findAndSetNewDefaultEngine({ privateMode }, changeReason) {
 +    // Yikwid no engines
 +    return null;
 +
