@@ -18,12 +18,12 @@
  }
  
  #search-container {
-@@ -1097,6 +1101,8 @@
+@@ -1220,6 +1224,8 @@
  }
- 
- #urlbar-searchmode-switcher {
+
+ .searchmode-switcher-dropmarker {
 +  /* Yikwid - no search switching; this is a browser, thank you */
 +  display: none !important;
-   appearance: none;
-   border-radius: var(--urlbar-icon-border-radius);
-   margin: 0;
+   .urlbar[searchmode] & {
+     display: none;
+   }

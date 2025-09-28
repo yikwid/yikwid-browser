@@ -30,13 +30,13 @@
      this.showItem("frame", this.inFrame);
  
      if (this.inFrame) {
-@@ -2792,7 +2798,8 @@ export class nsContextMenu {
-     let menuItemPrivate = document.getElementById(
-       "context-searchselect-private"
-     );
+@@ -2880,7 +2886,8 @@ export class nsContextMenu {
+     if (!menuitem) {
+       return;
+     }
 -    if (!Services.search.hasSuccessfullyInitialized) {
 +    // Yikwid always hide search context menu items
 +    if (true || !Services.search.hasSuccessfullyInitialized) {
-       menuItem.hidden = true;
-       menuItemPrivate.hidden = true;
+       menuitem.hidden = true;
        return;
+     }

@@ -27,12 +27,12 @@
            <h1 id="info-title" hidden></h1>
 --- a/browser/themes/shared/privatebrowsing/aboutPrivateBrowsing.css
 +++ b/browser/themes/shared/privatebrowsing/aboutPrivateBrowsing.css
-@@ -8,7 +8,7 @@
+@@ -6,7 +6,7 @@
+ 
+ @media not (prefers-contrast) {
    html.private {
-     --in-content-page-color: white;
-     --in-content-text-color: white;
--    --in-content-page-background: #25003e;
-+    --in-content-page-background: #006000;
+-    --background-color-canvas: #25003e;
++    --background-color-canvas: #006000;
      --link-color: white;
      --link-color-hover: white;
      --link-color-active: white;

@@ -243,10 +243,10 @@
  # standard CLDR forms, or only use the form for [other] if both strings should
 --- a/browser/modules/AboutNewTab.sys.mjs
 +++ b/browser/modules/AboutNewTab.sys.mjs
-@@ -12,12 +12,15 @@
-   ObjectUtils: "resource://gre/modules/ObjectUtils.sys.mjs",
+@@ -16,11 +16,14 @@ ChromeUtils.defineESModuleGetters(lazy, {
+     "resource://gre/modules/TelemetryReportingPolicy.sys.mjs",
  });
- 
+
 -const ABOUT_URL = "about:newtab";
 +// Yikwid: newtab page is just blank page now
 +const ABOUT_URL = "about:blank";
@@ -254,10 +254,9 @@
  // AboutHomeStartupCache needs us in "quit-application", so stay alive longer.
  // TODO: We could better have a shared async shutdown blocker?
  const TOPIC_APP_QUIT = "profile-before-change";
- const BROWSER_READY_NOTIFICATION = "sessionstore-windows-restored";
 +const NEWTAB_ENABLED_PREF = "browser.newtabpage.enabled";
 +const NEWTAB_CUSTOM_PREF = "browser.newtabpage.url";
- 
+
  export const AboutNewTab = {
    QueryInterface: ChromeUtils.generateQI([
 @@ -101,20 +104,32 @@

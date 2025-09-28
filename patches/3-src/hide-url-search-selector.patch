@@ -1,0 +1,10 @@
+--- a/browser/base/content/navigator-toolbox.inc.xhtml
++++ b/browser/base/content/navigator-toolbox.inc.xhtml
+@@ -196,6 +188,7 @@
+                            aria-haspopup="menu"
+                            tooltip="dynamic-shortcut-tooltip"
+                            data-l10n-id="urlbar-searchmode-default"
++                           hidden="true"
+                            type="menu">
+               <image class="searchmode-switcher-icon toolbarbutton-icon"/>
+               <image class="searchmode-switcher-dropmarker toolbarbutton-icon toolbarbutton-combined-buttons-dropmarker"
