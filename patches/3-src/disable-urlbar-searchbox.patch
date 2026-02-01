@@ -1,0 +1,20 @@
+--- a/browser/components/urlbar/content/UrlbarInput.mjs
++++ b/browser/components/urlbar/content/UrlbarInput.mjs
+@@ -88,6 +88,7 @@ export class UrlbarInput extends HTMLElement {
+         <toolbarbutton id="urlbar-searchmode-switcher"
+                        class="searchmode-switcher chromeclass-toolbar-additional"
+                        align="center"
++                       hidden="true"
+                        aria-expanded="false"
+                        aria-haspopup="menu"
+                        tooltip="dynamic-shortcut-tooltip"
+--- a/browser/components/urlbar/UrlbarController.sys.mjs
++++ b/browser/components/urlbar/UrlbarController.sys.mjs
+@@ -731,6 +731,7 @@ export class UrlbarController {
+   }
+ 
+   focusOnUnifiedSearchButton() {
++    return; // Yikwid
+     this.input.setUnifiedSearchButtonAvailability(true);
+ 
+     /** @type {HTMLElement} */

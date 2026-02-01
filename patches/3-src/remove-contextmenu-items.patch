@@ -16,17 +16,15 @@
      this.initPDFItems();
      this.initTextFragmentItems();
  
-@@ -900,8 +903,11 @@ export class nsContextMenu {
+@@ -917,7 +920,10 @@ export class nsContextMenu {
          !this.onMozExtLink) ||
          this.onPlainTextLink
      );
 -    this.showItem("context-add-engine", this.shouldShowAddEngine());
--    this.showItem("context-keywordfield", this.shouldShowAddKeyword());
-+    // Yikwid no search keyword
++    // Yikwid no search engines
 +    //this.showItem("context-add-engine", this.shouldShowAddEngine());
-+    //this.showItem("context-keywordfield", this.shouldShowAddKeyword());
 +    document.getElementById("context-add-engine").hidden = true;
-+    document.getElementById("context-keywordfield").hidden = true;
++
      this.showItem("frame", this.inFrame);
  
      if (this.inFrame) {

@@ -1,26 +1,13 @@
 --- a/browser/components/preferences/main.inc.xhtml
 +++ b/browser/components/preferences/main.inc.xhtml
-@@ -29,7 +29,7 @@
-   <vbox id="startupPageBox">
-     <checkbox id="browserRestoreSession"
-               data-l10n-id="startup-restore-windows-and-tabs"/>
--    <html:a is="moz-support-link" support-page="session-restore" data-l10n-id="session-restore-learn-more" />
-+    <!-- Yikwid remove session-restore support link -->
+@@ -28,9 +28,7 @@
  
- #ifdef XP_WIN
-     <hbox id="windowsLaunchOnLoginBox" align="center" hidden="true">
---- a/browser/components/preferences/privacy.inc.xhtml
-+++ b/browser/components/preferences/privacy.inc.xhtml
-@@ -404,11 +404,7 @@
-     <vbox flex="1">
-       <description class="description-with-side-element description-deemphasized" flex="1">
-         <html:span id="totalSiteDataSize"></html:span>
--        <html:a is="moz-support-link"
--                id="siteDataLearnMoreLink"
--                data-l10n-id="sitedata-learn-more"
--                support-page="storage-permissions"
--        />
-+        <!-- Yikwid remove storage-permissions support link -->
-       </description>
-       <hbox flex="1" id="deleteOnCloseNote" class="info-box-container smaller-font-size">
-         <hbox class="info-icon-container">
+   <vbox id="startupPageBox">
+   <html:setting-group groupid="startup"/>
+-  <html:a is="moz-support-link"
+-          support-page="session-restore"
+-          data-l10n-id="session-restore-learn-more"/>
++  <!-- Yikwid remove session-restore support link -->
+   </vbox>
+ 
+ 
